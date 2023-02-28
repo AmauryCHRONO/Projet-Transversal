@@ -1,4 +1,4 @@
-# Projet_Transversal
+# Projet Transversal
 ---
 Groupe D - Equipe 4 :   
 CAUDRON Raphaël (CLBD) - CHIRON Pierre-Antoine (CLBD) - CHRONOWSKI Amaury (ROSE) - GUILLOT Antony (CLBD) - JAMET Axel (CLBD) - LAPRAIS Augustain (ECE) - ZEMAN Mathieu (IMI)  
