@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.animation as animation
 
-PORT_NAME = 'COM12'
-DMAX = 8000
+PORT_NAME = 'COM4'
+DMAX = 6000
 IMIN = 0
 IMAX = 50
 

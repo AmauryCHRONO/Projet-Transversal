@@ -3,7 +3,7 @@
 from rplidar import RPLidar
 import time
 
-PORT_NAME = 'COM12'
+PORT_NAME = 'COM4'
 
 def run():
     '''Main function'''

@@ -6,7 +6,7 @@ import sys
 from rplidar import RPLidar
 
 
-PORT_NAME = 'COM12'
+PORT_NAME = 'COM1'
 
 
 def run(path):
