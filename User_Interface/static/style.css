@@ -1,0 +1,33 @@
+html{
+    font-family: monospace;
+    background-color: #0077B6;
+}
+
+body{
+    color: black;
+    position: relative;
+    text-align:center;
+}
+
+div{
+    text-align:center;
+}
+
+#container{
+    background-color: white;
+    position:absolute;
+    left:50%;
+}
+
+form{
+    display:inline-block;
+    background-color:white;
+    padding:20px;
+    border-radius:15px;
+}
+
+input{
+    padding:5px;
+    border-color:lightgray;
+    border-radius:5px;
+}
