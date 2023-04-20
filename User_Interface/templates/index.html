@@ -1,10 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'home.html' %}
 
 {% block content %}
-    <!--h1>{% block title %} Messages {% endblock %}</h1-->
-    <!--{% for message in messages %}
-        <div class='message'>-->
-    <h2>{{ messages[0] }}</h2>
-        <!--/div>
-    {% endfor %}-->
+    <h2>{{ messages }}</h2>
+    <div style="visibility:{{ visibility }}">
+        <p>Souhatez vous le réaliser ?</p>
+        <button type="submit">Oui</button>
+        <button type="submit">Non</button>
+    </div>
+    
+
 {% endblock %}

@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect, flash
 import psycopg2
 
 con = psycopg2.connect(
-    database="test",
+    database="drawbot_db",
     user="postgres",
     password="Ud7PsJab"
 )
@@ -13,11 +13,6 @@ def ex_com(q):
     cur.execute(q)
     con.commit()
 
-def display_table():
-    query="select * from modes"
-    ex_com(query)
-    return cur.fetchall()
-
 def display_all_table(table):
     try:
         query="select * from " + table
@@ -26,12 +21,6 @@ def display_all_table(table):
         return resultat
     except:
         return 1
-
-def ins_val(a):
-    
-    ins="insert into image () values ("+a+")"
-    ex_com(ins)
-    cur.close()
 
 def ins_val_v2(table_colonne,values):
     try:
@@ -64,21 +53,16 @@ def retrive_info(id):
     info="select * from list_of_step as los inner join image as i on los.id_image = i.id_image where i.id_image ="+id
     ex_com(info)
     return cur.fetchall()
-#cur.execute(ins)
-#con.commit()
-#rows = cur.fetchall()
-#print(rows)
+
 app=Flask(__name__)
 
 app.secret_key='123'
-
-#messages = []
-
 
 @app.route('/', methods=['POST','GET'])
 def index():
     messages=""
     instruct=[]
+    visibility="hidden"
     if request.method == 'POST':
         model = request.form['cmd']
         res=check(model)
@@ -87,8 +71,8 @@ def index():
         else:
             messages="Le modèle "+model+" est présent"
             instruct=retrive_info(str(res[0][0]))
-            
-    return render_template("index.html", messages=messages, instruct=instruct)
+            visibility="visible"
+    return render_template("index.html", messages=messages, instruct=instruct, visibility=visibility)
 
 
 if __name__ == "__main__":
