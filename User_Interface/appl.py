@@ -68,28 +68,28 @@ def retrive_info(id):
 #con.commit()
 #rows = cur.fetchall()
 #print(rows)
-
-
 app=Flask(__name__)
 
 app.secret_key='123'
 
-messages = []
+#messages = []
+
 
 @app.route('/', methods=['POST','GET'])
 def index():
+    messages=""
+    instruct=[]
     if request.method == 'POST':
-        task = request.form['cmd']
-        messages.clear()
-        res=check(task)
+        model = request.form['cmd']
+        res=check(model)
         if res==[]:
-            messages.append("Le modèle n'est pas présent")
+            messages="Le modèle n'est pas présent"
         else:
-            messages.append("Le modèle "+task+" est présent")
-            #steps=retrive_info(res[0][0])
-            #print(steps)
-        return redirect(url_for("index"))
-    return render_template("index.html", messages=messages)
+            messages="Le modèle "+model+" est présent"
+            instruct=retrive_info(str(res[0][0]))
+            
+    return render_template("index.html", messages=messages, instruct=instruct)
+
 
 if __name__ == "__main__":
     app.run(debug=True) 
