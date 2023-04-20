@@ -16,15 +16,54 @@ def ex_com(q):
 def display_table():
     query="select * from modes"
     ex_com(query)
-    cur.fetchall()
+    return cur.fetchall()
+
+def display_all_table(table):
+    try:
+        query="select * from " + table
+        cur.execute(query)
+        resultat = cur.fetchall()
+        return resultat
+    except:
+        return 1
 
 def ins_val(a):
-    ins="insert into modes (im_na) values ("+a+")"
+    
+    ins="insert into image () values ("+a+")"
     ex_com(ins)
+    cur.close()
 
-a="'i need water'" 
+def ins_val_v2(table_colonne,values):
+    try:
+        query="insert into" + table_colonne + "values" + values 
+        cur.execute(query)
+        con.commit()
 
+        return 0
+    except:
+        return 1
+    
+def display_element(table,element="*",characteristic=""):
 
+    query="select "+element+ " from " + table 
+
+    if characteristic != "":
+        query = query +" "+characteristic 
+
+    cur.execute(query)
+    resultat = cur.fetchall()
+
+    return resultat
+
+def check(im):
+    ch="select id_image from image where image_name = '"+im+"'" 
+    ex_com(ch)
+    return cur.fetchall()
+
+def retrive_info(id):
+    info="select * from list_of_step as los inner join image as i on los.id_image = i.id_image where i.id_image ="+id
+    ex_com(info)
+    return cur.fetchall()
 #cur.execute(ins)
 #con.commit()
 #rows = cur.fetchall()
@@ -32,19 +71,7 @@ a="'i need water'"
 
 
 app=Flask(__name__)
-"""""
-app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:Ud7PsJab@localhost/test'
 
-db=SQLAlchemy(app)
-
-class M(db.Model):
-    __tablename__="mode"
-    mode_id=db.Column(db.Integer(),primary_key=True)
-    mode_name=db.Column(db.String())
-
-    def __init__(self,name):
-        self.name=name
-"""""
 app.secret_key='123'
 
 messages = []
@@ -54,18 +81,15 @@ def index():
     if request.method == 'POST':
         task = request.form['cmd']
         messages.clear()
-        messages.append(task)
-        task="'"+task+"'"
-        #s=M(task)
-        #db.session.add(s)
-        #db.session.commit()
-        ins_val(task)
+        res=check(task)
+        if res==[]:
+            messages.append("Le modèle n'est pas présent")
+        else:
+            messages.append("Le modèle "+task+" est présent")
+            #steps=retrive_info(res[0][0])
+            #print(steps)
         return redirect(url_for("index"))
     return render_template("index.html", messages=messages)
-
-#cur.close()
-#con.close()
-
 
 if __name__ == "__main__":
     app.run(debug=True) 
