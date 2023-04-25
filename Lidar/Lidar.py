@@ -9,7 +9,7 @@ ser = Serial(port="COM5", baudrate=19200)
 def run():
     lidar = RPLidar('COM4')
     tour = []
-    temp = True
+    temp = 0
     try:
         print('Recording measurments... Press Crl+C to stop.')
 
@@ -34,7 +34,7 @@ def run():
 def traitement(tour,move):
     gauche = False
     droite = False
-
+    print(tour)
     for scan in tour:
         distance = scan[1]
         angle = scan[0]
@@ -49,24 +49,23 @@ def traitement(tour,move):
     if gauche and droite:
         print("centre")
         Envoi_instruction("q")
-        return False
+        return 0
     if gauche and not droite:
         print("gauche")
         Envoi_instruction("q")
-        return False
+        return 0
     if not gauche and droite:
-        print("droite")
+        print("droite\n")
         Envoi_instruction("d")
-        return False
-    if not gauche and not droite and move:
-        print("en avant")
+        return 0
+    if not gauche and not droite and move == 4:
+        print("en avant\n")
         Envoi_instruction("z")
-        return True
-    elif not gauche and not droite and not move:
-        return True
+        return 0
+    elif not gauche and not droite and move<4:
+        return move+1
         
                             
-
 
 
 def Envoi_instruction(direction):
@@ -82,7 +81,5 @@ def Envoi_instruction(direction):
     if direction=='f':
         ser.write(b'f')
 
+Envoi_instruction("z")
 run()
-if __name__=="__name__":
-    #Envoi_instruction("z")
-    run()
