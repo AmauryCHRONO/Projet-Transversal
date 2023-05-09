@@ -11,12 +11,12 @@ switch=1
 
 
 try:
-    os.mkdir('./shots')
+    os.mkdir('User_Interface\shots')
 except OSError as error:
     pass
 
 
-net = cv2.dnn.readNetFromCaffe('./saved_model/deploy.prototxt.txt', './saved_model/res10_300x300_ssd_iter_140000.caffemodel')
+net = cv2.dnn.readNetFromCaffe('User_Interface\saved_model\deploy.prototxt.txt', 'User_Interface/saved_model/res10_300x300_ssd_iter_140000.caffemodel')
 camera = cv2.VideoCapture(0)
 
 def gen_frames():  # generate frame by frame from camera
@@ -27,7 +27,7 @@ def gen_frames():  # generate frame by frame from camera
             if(capture):
                 capture=0
                 now = datetime.datetime.now()
-                p = os.path.sep.join(['shots', "shot_{}.png".format(str(now).replace(":",''))])
+                p = os.path.sep.join(['User_Interface/shots', "shot_{}.png".format(str(now).replace(":",''))])
                 cv2.imwrite(p, frame)
             
                 
