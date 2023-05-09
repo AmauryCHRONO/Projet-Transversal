@@ -4,14 +4,49 @@ import datetime, time
 import os, sys
 import numpy as np
 from threading import Thread
-import sr
 
+global capture, rec_frame, out, switch
+capture=0
+switch=1
+
+
+try:
+    os.mkdir('./shots')
+except OSError as error:
+    pass
+
+
+net = cv2.dnn.readNetFromCaffe('./saved_model/deploy.prototxt.txt', './saved_model/res10_300x300_ssd_iter_140000.caffemodel')
+camera = cv2.VideoCapture(0)
+
+def gen_frames():  # generate frame by frame from camera
+    global out, capture,rec_frame
+    while True:
+        success, frame = camera.read() 
+        if success: 
+            if(capture):
+                capture=0
+                now = datetime.datetime.now()
+                p = os.path.sep.join(['shots', "shot_{}.png".format(str(now).replace(":",''))])
+                cv2.imwrite(p, frame)
+            
+                
+            try:
+                ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
+                frame = buffer.tobytes()
+                yield (b'--frame\r\n'
+                       b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            except Exception as e:
+                pass
+                
+        else:
+            pass
 
 app=Flask(__name__, template_folder="./templates")
 
 @app.route('/video_feed')
 def video_feed():
-    return Response(sr.gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/capture',methods=['POST','GET'])
 def tasks():
