@@ -29,7 +29,7 @@ def findNumber(str):
         print("pas de nombre après")
         return str(500)
 
-def testeng(r, audio):
+'''def testeng(r, audio):
     text = r.recognize_google(audio, language='en-US')
     print("Vous avez dit : {}".format(text))
 
@@ -57,7 +57,7 @@ def testeng(r, audio):
         elif mot == ("right"):
             nbr = findNumber(textMots[i + 1])
             return "DROITE"
-        return "Aucun mot clef trouve"
+        return "Aucun mot clef trouve"'''
 
 
 def testfr(r, audio):
@@ -67,27 +67,16 @@ def testfr(r, audio):
     textMots = text.split()  # chercher mot exact
 
     for i,mot in enumerate(textMots):
-        if mot == ("off") or mot == ("arrêt") or mot == ("arrête"):
-            return "shutdown"
-        elif mot == ("start"):
-            return "START"
-        elif mot == ("stop"):
-            return "STOP"
-        elif mot == ("devant"):
-            nbr = findNumber(textMots[i + 1])
-            return "DEVANT"
-        elif mot == ("avance"):
-            nbr = findNumber(textMots[i + 1])
-            return "AVANCE"
-        elif mot == ("recule"):
-            nbr = findNumber(textMots[i + 1])
-            return "RECULE"
-        elif mot == ("gauche"):
-            nbr = findNumber(textMots[i + 1])
-            return "GAUCHE"
-        elif mot == ("droite"):
-            nbr = findNumber(textMots[i+1])
-            return "DROITE"
+        if mot == ("cercle"):
+            return mot
+        elif mot == ("carré"):
+            return mot
+        elif mot == ("rectangle"):
+            return mot
+        elif mot == ("diagonale"):
+            return mot
+        elif mot == ("trait"):
+            return mot
     return "Aucun mot clef trouvé"
 
 
@@ -104,8 +93,8 @@ def listen_timeout():
         try:
             if langue == "fr":
                 instruction = (testfr(r, audio))
-            else:
-                instruction = (testeng(r, audio))
+            '''else:
+                instruction = (testeng(r, audio))'''
             print(instruction)
             # envoie du resultat a input qui teste si besoin de shutdown
             return instruction
