@@ -75,9 +75,15 @@ def tasks():
 def index():
     return render_template("home.html")
 
-@app.route("/voix")
+@app.route("/voix", methods=['GET','POST'])
 def voice():
-    return render_template("voix.html")
+    if request.method=='POST':
+        return render_template("voix.html")
+    #
+    #TODO --> le bordel sur le bouton de voix
+    #
+    elif request.method=='GET':
+        return render_template("voix.html")
 
 
 if __name__=="__main__":
