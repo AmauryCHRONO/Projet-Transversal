@@ -41,5 +41,4 @@ output = output + "<"
 
 
 print(output)
-    #envoyer_donnees_serial(angle, "COM3", vitesse_baud=19200)
-    #envoyer_donnees_serial(distance, "COM3", vitesse_baud=19200)
+#envoyer_donnees_serial(output, "COM3", vitesse_baud=19200)
