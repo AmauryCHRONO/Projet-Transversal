@@ -1,35 +1,35 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-        <Title>Drawbot</Title>
-    </head>
-    <body onload="typeWriter()">
-        <!--header>
-            Welcome to Drawbot
-        </header-->
+{% extends 'base.html' %}
 
-        {% include 'header.html' %}
+{% block body %}
+    <h1 id="colored">Drawbot</h1>
 
-        <div>
-            <h1 id="sus">
-            </h1>
-            <h2 id="sas">
-                Show him a picture <br>or ask him to draw one of our various pre-installed models.
-            </h2>
+    
+    <div id="container">
+        <div id="pres">
+            <h2>Accueilez Drawbot</h2>        
+            <p> Ce robot est capable de réaliser des dessins sur une feuille de papier qui est disposée au sol.
+                <br> Il dispose d'un panel de divers modèles de dessins de base pré-installés.
+                <br> Vous pourrez aussi le commander avec votre voix avec notre module de commande vocale.
+                <br> Enfin, un mode capture y est intégré afin que, losrque vous lui présentez des images, il pourra les reproduire.
+            </p>
         </div>
 
-        <form id="gog", action="/", method="POST">
-            <input type="text" id="cmd" name="cmd" placeholder="Entrez un modèle"><br><br>
-            <input type="submit" id="sub" value="Soumettre">
-        </form>
-        <div>
-            {% block content %}{% endblock %}
+        <div id="checker">
+            <h2>Vérifiez le modèle</h2>
+            <p> 
+                N'hésitez pas à tester si le modèle que vous voulez dessiner est dans notre base de données.
+            </p>
+            <form action="/", method="POST">
+                <input type="hidden" name="method" value="post1">
+                <input type="text" id="cmd" name="cmd" placeholder="Entrez un modèle" required><br><br>
+                <input type="submit" id="sub" value="Soumettre">
+            </form>
+            <div>
+                {% block info %}
+                {% endblock %}
+            </div> 
         </div>
+        
+    </div>
 
-        <footer>
-
-        </footer>
-        <script src="{{ url_for('static', filename='script.js') }}"></script>
-    </body>
-</html>
+{% endblock %}

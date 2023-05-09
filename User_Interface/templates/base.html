@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="static/style.css">
+        <link rel="icon" href="static/paintbrush.png">
+        <Title>Drawbot</Title>
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/">Accueil</a>
+                </li>
+                <li>
+                    <a href="/capture">Capture</a>
+                </li>
+                <li>
+                    <a href="/voix">Commande vocale</a>
+                </li>
+                <li>
+                    <a href="#">A propos</a>
+                </li>
+            </ul>
+        </nav>
+        <div>
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h2>Capture d'images</h2>
+    <p> Présentez votre dessin devant la caméra puis appuyez sur le bouton de capture. 
+        <br>Le robot calculera le chemin nécessaire pour le reproduire.
+    </p>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8  offset-lg-2">
+                <form method="post" action="{{ url_for('tasks') }}">
+                <input class="sty_btn" type="submit" value="Stop/Start" name="stop" />
+                <input class="sty_btn" type="submit" value="Capture" name="click"/>
+                </form>
+                <img src="{{ url_for('video_feed') }}" alt="wow" height="80%">
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}
