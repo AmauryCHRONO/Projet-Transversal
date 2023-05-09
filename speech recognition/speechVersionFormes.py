@@ -1,64 +1,31 @@
 import speech_recognition as sr
 import threading
+import psycopg2
+from flask import Flask, render_template, Response, request
+from queue import Queue
 
 def input_listening():
-    test = True
-    while test:
-        inp = input("Press Enter to start listening and anything else to stop the program...\
-        \nMode d'emploi : 'action' 'distance' (distance en cm par défaut 50 cm)")
-        retour = ''
-        if inp == '':
-            retour = listen_timeout()
-        else:
-            print("Program Finished")
-            test = False
-        if retour == "shutdown":
-            test = False
-    return None
+    # Creation queue
+    result_queue = Queue()
+    # Démarrage thread
+    t = threading.Thread(target=lambda q: q.put(listen_timeout()), args=(result_queue,))
+    t.start()
 
-def findNumber(str):
-    try:
-        nombre = str(10*int(str))
-        long = len(nombre)
+    # Fin du thread
+    t.join()
 
-        if long<5:
-            return str((5-long)*"0"+nombre)
-        else:
-            return str(500)
-    except:
-        print("pas de nombre après")
-        return str(500)
+    # Recup resultat de listen_timeout 
+    result = result_queue.get()
+    if result != "Error":
+        new="'%"+str(result)+"%'"
+        req=" select i.id_image,i.image_name,s.distance_step,s.angle_step,s.index_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where s.index_step = 1 and i.image_name LIKE" +new
+        
+        ex_com(req)
+        return cur.fetchall()
 
-'''def testeng(r, audio):
-    text = r.recognize_google(audio, language='en-US')
-    print("Vous avez dit : {}".format(text))
-
-    textMots = text.split()  # chercher mot exact
-
-    for i,mot in enumerate(textMots):
-        if mot == ("off") or mot == ("shut"):
-            return "shutdown"
-        elif mot == ("start"):
-            return "START"
-        elif mot == ("stop"):
-            return "STOP"
-        elif mot == ("straight"):
-            nbr = findNumber(textMots[i + 1])
-            return "DEVANT"
-        elif mot == ("forward"):
-            nbr = findNumber(textMots[i + 1])
-            return "AVANCE"
-        elif mot == ("back"):
-            nbr = findNumber(textMots[i + 1])
-            return "RECULE"
-        elif mot == ("left"):
-            nbr = findNumber(textMots[i + 1])
-            return "GAUCHE"
-        elif mot == ("right"):
-            nbr = findNumber(textMots[i + 1])
-            return "DROITE"
-        return "Aucun mot clef trouve"'''
-
+def ex_com(q):
+    cur.execute(q)
+    con.commit()
 
 def testfr(r, audio):
     text = r.recognize_google(audio, language='fr-FR')
@@ -83,18 +50,14 @@ def testfr(r, audio):
 def listen_timeout():
     r = sr.Recognizer()
     mic = sr.Microphone()
-    langue = "fr"
 
     with mic as source:
         print("calibration du microphone")
         r.adjust_for_ambient_noise(source)
-        print("ECOUTE (" + langue + ")")
+        print("ECOUTE (Francais)")
         audio = r.listen(source, phrase_time_limit=3)
         try:
-            if langue == "fr":
-                instruction = (testfr(r, audio))
-            '''else:
-                instruction = (testeng(r, audio))'''
+            instruction = (testfr(r, audio))
             print(instruction)
             # envoie du resultat a input qui teste si besoin de shutdown
             return instruction
@@ -103,12 +66,28 @@ def listen_timeout():
         except sr.RequestError as e:
             print("Erreur de service de reconnaissance vocale : {}".format(e))
     return "Error"
-
+    
 
 if __name__ == "__main__":
-    # Démarrage thread
-    t = threading.Thread(target=input_listening(), name="speechRe")
-    t.start()
+    # FLASK
+    app = Flask(__name__, template_folder="./templates")
 
-    # Fin du thread
-    t.join()
+    # DATABASE
+    con = psycopg2.connect(
+        database="jalon1",
+        user="postgres",
+        password="CRONOS3317"
+        )
+    cur = con.cursor()
+
+
+@app.route("/voix", methods=['GET','POST'])
+def index():
+    if request.method == 'POST':
+        res = input_listening()
+        length = len(res)
+        print(res)
+        messages = "le modele n'est pas present"
+        return render_template("info.html",res=res,length=length)
+    else:
+        return render_template("voix.html")

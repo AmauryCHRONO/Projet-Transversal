@@ -107,3 +107,65 @@ div{
     background-image: linear-gradient(to right, #25aae1, #4481eb, #04befe, #3f86ed);
     box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
 }
+
+/*bdd*/
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 20vh;
+    margin-bottom: 3px;
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .sousbox1{
+    height: 100%;
+    width: 50%;
+  }
+  .sousbox2{
+    height: 100%;
+    width: 50%;
+  }
+  
+  .sousbox1 img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+  
+  .info {
+    position: absolute;
+    background-color: rgba(80, 80, 80, 0.8);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .name {
+    top: 10%;
+    left: 5%;
+  }
+  
+  .angle {
+    top: 30%;
+    left: 5%;
+  }
+  
+  .distance {
+    top: 50%;
+    left: 5%;
+  }
+  
+  .submit {
+    top: 70%;
+    left: 5%;
+    margin-top: 1px;
+  }
+/**bdd*/

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, Response, request
 import cv2
+import psycopg2
 import datetime, time
 import os, sys
 import numpy as np
@@ -71,9 +72,54 @@ def tasks():
     return render_template('camera.html')
 
 
+"""fonction DATABASE """
+con = psycopg2.connect(
+    database="jalon1",
+    user="postgres",
+    password="CRONOS3317"
+)
+
+cur = con.cursor()
+
+def ex_com(q):
+    cur.execute(q)
+    con.commit()
+
+def requeteALLSTEP(info):
+    new="'%"+str(info)+"%'"
+    req="select i.id_image,i.image_name,s.distance_step,s.angle_step,s.index_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where i.image_name LIKE "+new
+    
+    ex_com(req)
+    return cur.fetchall()
+
+def requete(info):
+    new="'%"+str(info)+"%'"
+    req=" select i.id_image,i.image_name,s.distance_step,s.angle_step,s.index_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where s.index_step = 1 and i.image_name LIKE" +new
+    
+    ex_com(req)
+    return cur.fetchall()
+
+
 @app.route("/", methods=['GET','POST'])
 def index():
-    return render_template("home.html")
+    if request.method == 'POST':
+        if request.form['method'] == 'post1':
+            model = request.form['cmd']
+            res=requete(model)
+            length=len(res)
+            print(res)
+            messages="Le modèle n'est pas présent"
+            return render_template("info.html",res=res,length=length)
+        for i in range(100):
+            if request.form['method'] == str(i):
+                name = request.form['name'+str(i)]
+                distance = request.form['distance'+str(i)]
+                angle = request.form['angle'+str(i)]
+                print(f"Nom: {name} Distance: {distance} Angle: {angle}")
+                print("ok")
+                return render_template("home.html")
+    else:
+        return render_template("home.html")
 
 @app.route("/voix", methods=['GET','POST'])
 def voice():
