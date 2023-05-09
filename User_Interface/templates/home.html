@@ -20,9 +20,14 @@
                 N'hésitez pas à tester si le modèle que vous voulez dessiner est dans notre base de données.
             </p>
             <form action="/", method="POST">
+                <input type="hidden" name="method" value="post1">
                 <input type="text" id="cmd" name="cmd" placeholder="Entrez un modèle" required><br><br>
                 <input type="submit" id="sub" value="Soumettre">
             </form>
+            <div>
+                {% block info %}
+                {% endblock %}
+            </div> 
         </div>
         
     </div>
