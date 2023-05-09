@@ -2,799 +2,215 @@
     "points": [
         {
             "angle": 0.0,
-            "distance": 20.0
+            "distance": 80.4
         },
         {
-            "angle": 329.4,
-            "distance": 21.5
+            "angle": 0.19497757625140455,
+            "distance": 90.8
         },
         {
-            "angle": -347.3,
-            "distance": 24.4
+            "angle": -0.012241031407834946,
+            "distance": 94.8
         },
         {
-            "angle": 4.4,
-            "distance": 24.5
+            "angle": -0.024699002731517705,
+            "distance": 96.5
         },
         {
-            "angle": -0.1,
-            "distance": 23.7
+            "angle": 0.03055817027749752,
+            "distance": 91.5
         },
         {
-            "angle": 15.4,
-            "distance": 25.4
+            "angle": 0.09807936253957994,
+            "distance": 88.1
         },
         {
-            "angle": 1.1,
-            "distance": 23.5
+            "angle": -0.023975499042728998,
+            "distance": 88.4
         },
         {
-            "angle": 9.2,
-            "distance": 26.4
+            "angle": 0.09562221282847361,
+            "distance": 94.4
         },
         {
-            "angle": 6.6,
-            "distance": 24.1
+            "angle": 0.05450753730783653,
+            "distance": 88.5
         },
         {
-            "angle": 6.1,
-            "distance": 25.9
+            "angle": 0.022488781028823457,
+            "distance": 86.9
         },
         {
-            "angle": -1.6,
-            "distance": 25.4
+            "angle": 0.07570982288742734,
+            "distance": 78.2
         },
         {
-            "angle": 8.7,
-            "distance": 25.6
+            "angle": 0.15934036712959188,
+            "distance": 80.3
         },
         {
-            "angle": 4.0,
-            "distance": 26.2
+            "angle": 0.18438839559544795,
+            "distance": 68.8
         },
         {
-            "angle": 0.8,
-            "distance": 21.6
+            "angle": 0.15317718835551442,
+            "distance": 83.5
         },
         {
-            "angle": 4.9,
-            "distance": 22.8
+            "angle": 0.2416128434574356,
+            "distance": 79.7
         },
         {
-            "angle": -0.4,
-            "distance": 23.1
+            "angle": 0.2514368845482764,
+            "distance": 81.0
         },
         {
-            "angle": 6.7,
-            "distance": 23.2
+            "angle": 0.29060267157926245,
+            "distance": 85.8
         },
         {
-            "angle": -7.8,
-            "distance": 21.9
+            "angle": 0.23086473824421772,
+            "distance": 82.0
         },
         {
-            "angle": 7.3,
-            "distance": 22.4
+            "angle": 0.26099102149436876,
+            "distance": 82.2
         },
         {
-            "angle": 4.5,
-            "distance": 20.5
+            "angle": 0.1487825464351338,
+            "distance": 75.8
         },
         {
-            "angle": 5.0,
-            "distance": 24.8
+            "angle": 0.03438755459400489,
+            "distance": 76.8
         },
         {
-            "angle": 4.0,
-            "distance": 21.7
+            "angle": 0.13076112282062194,
+            "distance": 75.8
         },
         {
-            "angle": -16.4,
-            "distance": 22.1
+            "angle": 0.4281591974742653,
+            "distance": 89.3
         },
         {
-            "angle": 10.1,
-            "distance": 21.0
+            "angle": 0.25052451047466634,
+            "distance": 92.7
         },
         {
-            "angle": -2.8,
-            "distance": 22.4
+            "angle": 0.2710848142817669,
+            "distance": 87.1
         },
         {
-            "angle": 1.8,
-            "distance": 20.4
+            "angle": -1.792111264496512,
+            "distance": 94.1
         },
         {
-            "angle": -2.2,
-            "distance": 19.5
+            "angle": 0.07592168427575408,
+            "distance": 85.8
         },
         {
-            "angle": 12.4,
-            "distance": 22.1
+            "angle": 0.15070872843167027,
+            "distance": 97.0
         },
         {
-            "angle": 0.0,
-            "distance": 23.2
+            "angle": 0.21250035120525113,
+            "distance": 75.3
         },
         {
-            "angle": 6.8,
-            "distance": 20.9
+            "angle": 0.12096604512816467,
+            "distance": 80.6
         },
         {
-            "angle": -4.9,
-            "distance": 21.3
+            "angle": 0.11283420842137742,
+            "distance": 69.5
         },
         {
-            "angle": -1.6,
-            "distance": 24.1
+            "angle": 0.08748763952352132,
+            "distance": 77.9
         },
         {
-            "angle": 4.7,
-            "distance": 26.2
+            "angle": 0.25504660771602994,
+            "distance": 84.4
         },
         {
-            "angle": -5.7,
-            "distance": 21.6
+            "angle": 0.3208461367619311,
+            "distance": 90.5
         },
         {
-            "angle": -15.4,
-            "distance": 21.5
+            "angle": 0.2548080615683866,
+            "distance": 87.6
         },
         {
-            "angle": -2.5,
-            "distance": 23.5
+            "angle": 0.33890570214276095,
+            "distance": 88.8
         },
         {
-            "angle": 3.2,
-            "distance": 21.8
+            "angle": 0.1710581049776998,
+            "distance": 90.3
         },
         {
-            "angle": 7.4,
-            "distance": 21.6
+            "angle": 0.12088326844555941,
+            "distance": 82.5
         },
         {
-            "angle": -19.3,
-            "distance": 23.0
+            "angle": 0.20536454535690885,
+            "distance": 79.8
         },
         {
-            "angle": 20.1,
-            "distance": 22.7
+            "angle": 0.1973530725962478,
+            "distance": 80.1
         },
         {
-            "angle": -0.5,
-            "distance": 23.2
+            "angle": 0.23133492884906515,
+            "distance": 90.1
         },
         {
-            "angle": 2.5,
-            "distance": 23.6
+            "angle": 0.15132844434026715,
+            "distance": 94.9
         },
         {
-            "angle": -0.3,
-            "distance": 20.3
+            "angle": 0.04007269131830915,
+            "distance": 95.6
         },
         {
-            "angle": 5.4,
-            "distance": 21.3
+            "angle": 0.12335380037324173,
+            "distance": 90.6
         },
         {
-            "angle": 5.2,
-            "distance": 23.1
+            "angle": 0.03736198305109806,
+            "distance": 83.5
         },
         {
-            "angle": 2.0,
-            "distance": 26.7
+            "angle": -0.009598772025081193,
+            "distance": 85.6
         },
         {
-            "angle": 1.7,
-            "distance": 20.8
+            "angle": 0.01851640206800198,
+            "distance": 86.6
         },
         {
-            "angle": 0.4,
-            "distance": 20.0
+            "angle": 0.03611014531794687,
+            "distance": 86.0
         },
         {
-            "angle": 5.8,
-            "distance": 23.9
+            "angle": 0.02395286805778918,
+            "distance": 86.0
         },
         {
-            "angle": 0.0,
-            "distance": 21.0
+            "angle": -0.012838911885748594,
+            "distance": 82.0
         },
         {
-            "angle": 8.5,
-            "distance": 22.7
+            "angle": 0.0003113320810443909,
+            "distance": 85.0
         },
         {
-            "angle": 5.0,
-            "distance": 22.5
+            "angle": -0.034011527257729046,
+            "distance": 84.4
         },
         {
-            "angle": 20.9,
-            "distance": 24.5
-        },
-        {
-            "angle": 1.5,
-            "distance": 24.8
-        },
-        {
-            "angle": 25.2,
-            "distance": 23.4
-        },
-        {
-            "angle": -26.5,
-            "distance": 24.5
-        },
-        {
-            "angle": 9.0,
-            "distance": 28.8
-        },
-        {
-            "angle": 15.8,
-            "distance": 24.4
-        },
-        {
-            "angle": 2.7,
-            "distance": 24.7
-        },
-        {
-            "angle": -3.0,
-            "distance": 22.5
-        },
-        {
-            "angle": 12.4,
-            "distance": 20.1
-        },
-        {
-            "angle": -2.5,
-            "distance": 25.3
-        },
-        {
-            "angle": 9.0,
-            "distance": 26.6
-        },
-        {
-            "angle": -6.9,
-            "distance": 23.1
-        },
-        {
-            "angle": 14.3,
-            "distance": 24.6
-        },
-        {
-            "angle": 5.8,
-            "distance": 21.7
-        },
-        {
-            "angle": 5.2,
-            "distance": 23.1
-        },
-        {
-            "angle": -2.4,
-            "distance": 21.8
-        },
-        {
-            "angle": -7.6,
-            "distance": 21.3
-        },
-        {
-            "angle": -15.0,
-            "distance": 21.9
-        },
-        {
-            "angle": 3.0,
-            "distance": 21.6
-        },
-        {
-            "angle": -2.8,
-            "distance": 22.7
-        },
-        {
-            "angle": -10.4,
-            "distance": 21.5
-        },
-        {
-            "angle": 7.2,
-            "distance": 23.1
-        },
-        {
-            "angle": -17.8,
-            "distance": 23.8
-        },
-        {
-            "angle": -18.0,
-            "distance": 25.3
-        },
-        {
-            "angle": 1.5,
-            "distance": 27.5
-        },
-        {
-            "angle": -5.9,
-            "distance": 29.7
-        },
-        {
-            "angle": 4.3,
-            "distance": 23.2
-        },
-        {
-            "angle": -1.6,
-            "distance": 26.0
-        },
-        {
-            "angle": -0.0,
-            "distance": 26.0
-        },
-        {
-            "angle": 1.6,
-            "distance": 25.3
-        },
-        {
-            "angle": 1.5,
-            "distance": 28.1
-        },
-        {
-            "angle": -3.1,
-            "distance": 26.9
-        },
-        {
-            "angle": 1.6,
-            "distance": 25.9
-        },
-        {
-            "angle": 5.3,
-            "distance": 24.0
-        },
-        {
-            "angle": 0.8,
-            "distance": 26.9
-        },
-        {
-            "angle": -0.8,
-            "distance": 25.2
-        },
-        {
-            "angle": 4.4,
-            "distance": 26.5
-        },
-        {
-            "angle": 3.9,
-            "distance": 22.2
-        },
-        {
-            "angle": 6.3,
-            "distance": 24.2
-        },
-        {
-            "angle": -9.8,
-            "distance": 24.5
-        },
-        {
-            "angle": 30.2,
-            "distance": 23.2
-        },
-        {
-            "angle": -18.0,
-            "distance": 23.4
-        },
-        {
-            "angle": -4.7,
-            "distance": 22.0
-        },
-        {
-            "angle": 16.2,
-            "distance": 21.6
-        },
-        {
-            "angle": 7.1,
-            "distance": 22.6
-        },
-        {
-            "angle": 6.8,
-            "distance": 24.2
-        },
-        {
-            "angle": 20.4,
-            "distance": 23.3
-        },
-        {
-            "angle": -12.9,
-            "distance": 24.6
-        },
-        {
-            "angle": 25.7,
-            "distance": 26.7
-        },
-        {
-            "angle": -33.0,
-            "distance": 22.3
-        },
-        {
-            "angle": 19.4,
-            "distance": 22.8
-        },
-        {
-            "angle": 18.0,
-            "distance": 27.6
-        },
-        {
-            "angle": -2.6,
-            "distance": 24.0
-        },
-        {
-            "angle": 9.1,
-            "distance": 26.1
-        },
-        {
-            "angle": 1.5,
-            "distance": 25.3
-        },
-        {
-            "angle": 2.5,
-            "distance": 29.0
-        },
-        {
-            "angle": 4.1,
-            "distance": 25.8
-        },
-        {
-            "angle": 15.3,
-            "distance": 25.4
-        },
-        {
-            "angle": -6.8,
-            "distance": 22.8
-        },
-        {
-            "angle": -9.2,
-            "distance": 26.3
-        },
-        {
-            "angle": 6.3,
-            "distance": 28.6
-        },
-        {
-            "angle": 8.1,
-            "distance": 21.1
-        },
-        {
-            "angle": -1.3,
-            "distance": 24.1
-        },
-        {
-            "angle": -2.1,
-            "distance": 21.5
-        },
-        {
-            "angle": 2.7,
-            "distance": 25.0
-        },
-        {
-            "angle": -0.2,
-            "distance": 25.6
-        },
-        {
-            "angle": -3.2,
-            "distance": 21.5
-        },
-        {
-            "angle": -10.0,
-            "distance": 27.6
-        },
-        {
-            "angle": 1.9,
-            "distance": 25.2
-        },
-        {
-            "angle": 0.5,
-            "distance": 24.4
-        },
-        {
-            "angle": 0.2,
-            "distance": 23.4
-        },
-        {
-            "angle": 17.2,
-            "distance": 24.0
-        },
-        {
-            "angle": -9.3,
-            "distance": 24.4
-        },
-        {
-            "angle": 3.2,
-            "distance": 21.0
-        },
-        {
-            "angle": -10.8,
-            "distance": 27.3
-        },
-        {
-            "angle": 5.2,
-            "distance": 19.5
-        },
-        {
-            "angle": -4.3,
-            "distance": 25.8
-        },
-        {
-            "angle": 6.3,
-            "distance": 22.3
-        },
-        {
-            "angle": 0.8,
-            "distance": 22.9
-        },
-        {
-            "angle": 4.8,
-            "distance": 22.4
-        },
-        {
-            "angle": 10.5,
-            "distance": 21.0
-        },
-        {
-            "angle": -7.0,
-            "distance": 24.5
-        },
-        {
-            "angle": -0.4,
-            "distance": 23.7
-        },
-        {
-            "angle": -4.6,
-            "distance": 21.9
-        },
-        {
-            "angle": 5.3,
-            "distance": 23.0
-        },
-        {
-            "angle": 5.0,
-            "distance": 21.7
-        },
-        {
-            "angle": 5.5,
-            "distance": 24.6
-        },
-        {
-            "angle": 13.5,
-            "distance": 22.9
-        },
-        {
-            "angle": 0.3,
-            "distance": 22.6
-        },
-        {
-            "angle": -10.0,
-            "distance": 23.9
-        },
-        {
-            "angle": 13.0,
-            "distance": 25.0
-        },
-        {
-            "angle": -2.9,
-            "distance": 22.2
-        },
-        {
-            "angle": 1.5,
-            "distance": 23.4
-        },
-        {
-            "angle": 3.3,
-            "distance": 24.6
-        },
-        {
-            "angle": 2.6,
-            "distance": 22.3
-        },
-        {
-            "angle": 8.6,
-            "distance": 19.1
-        },
-        {
-            "angle": -9.7,
-            "distance": 20.4
-        },
-        {
-            "angle": 4.5,
-            "distance": 22.6
-        },
-        {
-            "angle": 22.5,
-            "distance": 24.6
-        },
-        {
-            "angle": 5.9,
-            "distance": 26.2
-        },
-        {
-            "angle": 7.4,
-            "distance": 25.7
-        },
-        {
-            "angle": 7.9,
-            "distance": 23.2
-        },
-        {
-            "angle": -0.8,
-            "distance": 22.7
-        },
-        {
-            "angle": 9.5,
-            "distance": 22.9
-        },
-        {
-            "angle": 11.1,
-            "distance": 24.3
-        },
-        {
-            "angle": -350.9,
-            "distance": 21.4
-        },
-        {
-            "angle": 5.5,
-            "distance": 19.8
-        },
-        {
-            "angle": 352.3,
-            "distance": 23.2
-        },
-        {
-            "angle": -344.2,
-            "distance": 23.2
-        },
-        {
-            "angle": -8.2,
-            "distance": 23.3
-        },
-        {
-            "angle": 11.8,
-            "distance": 22.6
-        },
-        {
-            "angle": -8.8,
-            "distance": 20.8
-        },
-        {
-            "angle": 8.6,
-            "distance": 25.3
-        },
-        {
-            "angle": -2.6,
-            "distance": 24.9
-        },
-        {
-            "angle": -0.0,
-            "distance": 27.9
-        },
-        {
-            "angle": 1.9,
-            "distance": 27.4
-        },
-        {
-            "angle": -3.4,
-            "distance": 25.9
-        },
-        {
-            "angle": 6.6,
-            "distance": 28.4
-        },
-        {
-            "angle": -7.8,
-            "distance": 25.9
-        },
-        {
-            "angle": -5.6,
-            "distance": 22.5
-        },
-        {
-            "angle": -5.4,
-            "distance": 26.2
-        },
-        {
-            "angle": 348.0,
-            "distance": 20.1
-        },
-        {
-            "angle": 0.9,
-            "distance": 21.3
-        },
-        {
-            "angle": 0.1,
-            "distance": 23.8
-        },
-        {
-            "angle": -8.4,
-            "distance": 23.6
-        },
-        {
-            "angle": -2.6,
-            "distance": 23.2
-        },
-        {
-            "angle": -3.9,
-            "distance": 23.1
-        },
-        {
-            "angle": -4.5,
-            "distance": 25.2
-        },
-        {
-            "angle": 5.2,
-            "distance": 23.7
-        },
-        {
-            "angle": -5.6,
-            "distance": 24.2
-        },
-        {
-            "angle": -9.5,
-            "distance": 24.7
-        },
-        {
-            "angle": 0.1,
-            "distance": 29.1
-        },
-        {
-            "angle": -3.5,
-            "distance": 26.0
-        },
-        {
-            "angle": -5.4,
-            "distance": 28.1
-        },
-        {
-            "angle": 2.2,
-            "distance": 23.9
-        },
-        {
-            "angle": -6.0,
-            "distance": 26.7
-        },
-        {
-            "angle": 2.1,
-            "distance": 26.9
-        },
-        {
-            "angle": -1.7,
-            "distance": 26.1
-        },
-        {
-            "angle": 1.5,
-            "distance": 25.3
-        },
-        {
-            "angle": 1.6,
-            "distance": 24.5
-        },
-        {
-            "angle": 3.4,
-            "distance": 26.0
-        },
-        {
-            "angle": -8.3,
-            "distance": 25.4
-        },
-        {
-            "angle": 3.5,
-            "distance": 26.8
-        },
-        {
-            "angle": 3.2,
-            "distance": 25.9
-        },
-        {
-            "angle": -9.8,
-            "distance": 21.9
-        },
-        {
-            "angle": 21.4,
-            "distance": 21.8
-        },
-        {
-            "angle": 25.3,
-            "distance": 20.0
+            "angle": 0.1927938219092713,
+            "distance": 77.5
         }
     ]
 }
