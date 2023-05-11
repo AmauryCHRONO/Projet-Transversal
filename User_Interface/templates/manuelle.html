@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div>
+        <form action="/manuelle", method="POST">
+            <input type="hidden" name="method" value="post2">
+            <input type="text" id="cmd" name="cmd" placeholder="Entrez un modèle" required><br><br>
+            <input type="submit" id="sub" value="Soumettre">
+        </form>
+    </div>
+
+{% endblock %}

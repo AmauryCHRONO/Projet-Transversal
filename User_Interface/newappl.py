@@ -5,11 +5,11 @@ import datetime
 import os
 from threading import Thread
 
-global capture, rec_frame, out, switch
+global capture, rec_frame, out,switch,mode
 capture=0
 switch=1
 
-
+mode = "manuelle"
 try:
     os.mkdir('User_Interface\shots')
 except OSError as error:
@@ -71,10 +71,13 @@ def tasks():
 
 """fonction DATABASE """
 con = psycopg2.connect(
-    database="drawbot_db",
+    database="jalon1",
     user="postgres",
-    password="Ud7PsJab"
+    password="0000"
 )
+def envoi(info):
+    print(info)
+    return 0
 
 cur = con.cursor()
 
@@ -99,14 +102,17 @@ def requete(info):
 
 @app.route("/", methods=['GET','POST'])
 def index():
+    global mode 
+    mode = "dessin"
     if request.method == 'POST':
+        envoi(mode)
         if request.form['method'] == 'post1':
             model = request.form['cmd']
             res=requete(model)
             length=len(res)
             print(res)
             messages="Le modèle n'est pas présent"
-            return render_template("info.html",res=res,length=length)
+            return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden")
         for i in range(100):
             if request.form['method'] == str(i):
                 name = request.form['name'+str(i)]
@@ -117,19 +123,39 @@ def index():
                 res=requeteALLSTEP(name)
                 length=len(res)
                 print(res)
-                return render_template("info.html",res=res,length=length)
+                return render_template("info.html",res=res,length=length, typeSub="hidden",typeName="hidden",typeIndex="text")
     else:
+        envoi(mode)
         return render_template("home.html")
 
 @app.route("/voix", methods=['GET','POST'])
 def voice():
+    global mode 
+    mode = "dessin"
     if request.method=='POST':
+        envoi(mode)
         return render_template("voix.html")
     #
     #TODO --> le bordel sur le bouton de voix
     #
     elif request.method=='GET':
+        envoi(mode)
         return render_template("voix.html")
+
+@app.route("/manuelle", methods=['GET','POST'])
+def manuelle():
+    global mode 
+    mode = "manuelle"
+    if request.method=='POST':
+        if request.form['method'] == 'post2':
+            envoi(mode)
+            return render_template("manuelle.html")
+    #
+    #TODO --> le bordel sur le bouton de voix
+    #
+    elif request.method=='GET':
+        envoi(mode)
+        return render_template("manuelle.html")
 
 
 if __name__=="__main__":
