@@ -71,7 +71,7 @@ def tasks():
 
 """fonction DATABASE """
 con = psycopg2.connect(
-    database="PTC",
+    database="ptc",
     user="postgres",
     password="0000"
     #password="0000" #ALTER ROLE postgres WITH PASSWORD '0000';
