@@ -1,96 +1,124 @@
 import speech_recognition as sr
 import threading
-from serial import Serial
 
-ser = Serial(port="COM3",baudrate=19200)
+def input_listening():
+    test = True
+    while test:
+        inp = input("Press Enter to start listening and anything else to stop the program...\
+        \nMode d'emploi : 'action' 'distance' (distance en cm par défaut 50 cm)")
+        retour = ''
+        if inp == '':
+            retour = listen_timeout()
+        else:
+            print("Program Finished")
+            test = False
+        if retour == "shutdown":
+            test = False
+    return None
 
-def testEng(r,audio):
+def findNumber(str):
+    try:
+        nombre = str(10*int(str))
+        long = len(nombre)
+
+        if long<5:
+            return str((5-long)*"0"+nombre)
+        else:
+            return str(500)
+    except:
+        print("pas de nombre après")
+        return str(500)
+
+def testeng(r, audio):
     text = r.recognize_google(audio, language='en-US')
     print("Vous avez dit : {}".format(text))
-    if text.find("off") != -1 or text.find("shut") != -1:
-        return("shutdown")
-    elif text.find("start") != -1:
-        #ser.write(b"STAR")
-        return("START")
-    elif text.find("stop") != -1:  # stopper marche aussi
-        ser.write(b"f")
-        #ser.write(b"STOP")
-        return("STOP")
-    elif text.find("forward") != -1:
-        ser.write(b"z")
-        #ser.write(b"AVAN")
-        return("AVANCE")
-    elif text.find("back") != -1:
-        ser.write(b"s")
-        #ser.write(b"RECU")
-        return("RECULE")
-    elif text.find("left") != -1:
-        ser.write(b"q")
-        #ser.write(b"GAUC")
-        return("GAUCHE")
-    elif text.find("right") != -1:
-        ser.write(b"d")
-        #ser.write(b"DROI")
-        return("DROITE")
 
-def testFr(r,audio):
+    textMots = text.split()  # chercher mot exact
+
+    for i,mot in enumerate(textMots):
+        if mot == ("off") or mot == ("shut"):
+            return "shutdown"
+        elif mot == ("start"):
+            return "START"
+        elif mot == ("stop"):
+            return "STOP"
+        elif mot == ("straight"):
+            nbr = findNumber(textMots[i + 1])
+            return "DEVANT"
+        elif mot == ("forward"):
+            nbr = findNumber(textMots[i + 1])
+            return "AVANCE"
+        elif mot == ("back"):
+            nbr = findNumber(textMots[i + 1])
+            return "RECULE"
+        elif mot == ("left"):
+            nbr = findNumber(textMots[i + 1])
+            return "GAUCHE"
+        elif mot == ("right"):
+            nbr = findNumber(textMots[i + 1])
+            return "DROITE"
+        return "Aucun mot clef trouve"
+
+
+def testfr(r, audio):
     text = r.recognize_google(audio, language='fr-FR')
     print("Vous avez dit : {}".format(text))
-    if text.find("off") != -1 or text.find("arrêt") != -1:
-        return("shutdown")
-    elif text.find("start") != -1:
-        #ser.write(b"STAR")
-        return("START")
-    elif text.find("stop") != -1:  # stopper marche aussi
-        ser.write(b"f")
-        #ser.write(b"STOP")
-        return("STOP")
-    elif text.find("avance") != -1:
-        ser.write(b"z")
-        # ser.write(b"AVAN")
-        return("AVANCE")
-    elif text.find("recule") != -1:
-        ser.write(b"s")
-        # ser.write(b"RECU")
-        return("RECULE")
-    elif text.find("gauche") != -1:
-        ser.write(b"q")
-        # ser.write(b"GAUC")
-        return("GAUCHE")
-    elif text.find("droite") != -1:
-        ser.write(b"d")
-        # ser.write(b"DROI")
-        return("DROITE")
+
+    textMots = text.split()  # chercher mot exact
+
+    for i,mot in enumerate(textMots):
+        if mot == ("off") or mot == ("arrêt") or mot == ("arrête"):
+            return "shutdown"
+        elif mot == ("start"):
+            return "START"
+        elif mot == ("stop"):
+            return "STOP"
+        elif mot == ("devant"):
+            nbr = findNumber(textMots[i + 1])
+            return "DEVANT"
+        elif mot == ("avance"):
+            nbr = findNumber(textMots[i + 1])
+            return "AVANCE"
+        elif mot == ("recule"):
+            nbr = findNumber(textMots[i + 1])
+            return "RECULE"
+        elif mot == ("gauche"):
+            nbr = findNumber(textMots[i + 1])
+            return "GAUCHE"
+        elif mot == ("droite"):
+            nbr = findNumber(textMots[i+1])
+            return "DROITE"
+    return "Aucun mot clef trouvé"
+
 
 def listen_timeout():
     r = sr.Recognizer()
     mic = sr.Microphone()
-    langue="fr"
+    langue = "fr"
 
     with mic as source:
         print("calibration du microphone")
         r.adjust_for_ambient_noise(source)
-        booleen=True
-        while booleen:
-            print("ECOUTE ("+langue+")")
-            audio=r.listen(source, phrase_time_limit=4)
-            try:
-                if langue=="fr":
-                    instruction=(testFr(r,audio))
-                else:
-                    instruction=(testEng(r,audio))
-                print(instruction)
-                if instruction=="shutdown":
-                    booleen = False
-                #ici envoie des instructions pour GUS
-            except sr.UnknownValueError:
-                print("Impossible de comprendre la parole.")
-            except sr.RequestError as e:
-                print("Erreur de service de reconnaissance vocale : {}".format(e))
-    return "done"
+        print("ECOUTE (" + langue + ")")
+        audio = r.listen(source, phrase_time_limit=3)
+        try:
+            if langue == "fr":
+                instruction = (testfr(r, audio))
+            else:
+                instruction = (testeng(r, audio))
+            print(instruction)
+            # envoie du resultat a input qui teste si besoin de shutdown
+            return instruction
+        except sr.UnknownValueError:
+            print("Impossible de comprendre la parole.")
+        except sr.RequestError as e:
+            print("Erreur de service de reconnaissance vocale : {}".format(e))
+    return "Error"
+
+
 if __name__ == "__main__":
     # Démarrage thread
-    t = threading.Thread(target=listen_timeout,name="speechRe")
+    t = threading.Thread(target=input_listening(), name="speechRe")
     t.start()
 
     # Fin du thread

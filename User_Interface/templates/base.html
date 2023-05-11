@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="stylesheet" href="static/style.css">
+        <link rel="icon" href="static/paintbrush.png">
         <Title>Drawbot</Title>
     </head>
-    <body onload="typeWriter()">
-        <!--header>
-            Welcome to Drawbot
-        </header-->
+    <body>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/">Accueil</a>
+                </li>
+                <li>
+                    <a href="/capture">Capture</a>
+                </li>
+                <li>
+                    <a href="/voix">Commande vocale</a>
+                </li>
+                <li>
+                    <a href="#">A propos</a>
+                </li>
+            </ul>
+        </nav>
         <div>
-            <h1 id="sus">
-            </h1>
-            <h2 id="sas">
-                Show him a picture <br>or ask him to draw one of our various pre-installed models.
-            </h2>
+            {% block body %}
+            {% endblock %}
         </div>
-
-        <form id="gog", action="/", method="POST">
-            <input type="text" id="cmd" name="cmd" placeholder="Entrez un modèle"><br><br>
-            <input type="submit" id="sub" value="Soumettre">
-        </form>
-        <div>
-            {% block content %}{% endblock %}
-        </div>
-
-        <footer>
-
-        </footer>
-        <script src="{{ url_for('static', filename='script.js') }}"></script>
     </body>
 </html>
