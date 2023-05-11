@@ -2,6 +2,16 @@ import serial
 import json
 
 def deplacement(angles, distances, R, port, vitesse_baud=19200, timeout=1):
+    """_summary_ : envoie 6 étapes de mouvement au robot pour la réalisation d'un trait.
+
+    Args:
+        angles (Liste): liste d'angle de rotation en radiant
+        distances (Liste): liste de distance en mm
+        R (int): distance en mm du crayon par rapport au centre des roues
+        port (str): port de connexion du module Xbee
+        vitesse_baud (int, optional): vitesse de communication. Defaults to 19200.
+        timeout (int, optional): Defaults to 1.
+    """
     try:
         ser = serial.Serial(port, vitesse_baud, timeout=timeout)
         print("Port série ouvert :", ser.name)
@@ -45,6 +55,16 @@ def deplacement(angles, distances, R, port, vitesse_baud=19200, timeout=1):
 
 
 def decodage(donnees):
+    """_summary_ : décode la chaine de caractère contenant tous les angles et les distances en 2 listes avec cchaque élément étant une orientation ou une distance.
+
+    Args:
+        donnees (str): longue string de la forme : "I+0000/2228||+0606/1519||+0891/5092||-0607/1535||-0289/3958||+0981/2117||+0858/2949||+0331/4293||+0259/2160||+0951/2191||+0549/2797||-0732/4060||+0303/1497||+0561/1422||+0575/1664||+0375/6319||+0231/0755||<"
+            qui contient l'ensemble des informations du tracé
+
+    Returns:
+        angle : liste contenant tout les angles
+        distance : liste contenant tout les distances
+    """
     # Initialisation des listes angle et distance
     angle = []
     distance = []

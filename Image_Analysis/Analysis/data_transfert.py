@@ -2,7 +2,14 @@ import serial
 import json
 
 def envoyer_donnees_serial(donnees, port, vitesse_baud=19200, timeout=1):
+    """_summary_ : envoie donnees par port serie, donnees étant une string contenant tout les points/donnée du tracé
 
+    Args:
+        donnees (str): _description_
+        port (str): port de connexion du module Xbee
+        vitesse_baud (int, optional): vitesse de communication. Defaults to 19200.
+        timeout (int, optional): Defaults to 1.
+    """
     try:
         ser = serial.Serial(port, vitesse_baud, timeout=timeout)
         print("Port série ouvert :", ser.name)

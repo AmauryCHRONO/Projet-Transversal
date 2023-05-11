@@ -1,7 +1,6 @@
 from serial import Serial
 
-ser = Serial(port="COM5", baudrate=19200)
-ser.write(b'z')
-
-input()
-ser.write(b"f")
+ser = Serial(port="COM6", baudrate=19200)
+ser.write(b'q')
+print(ser.read(7))
+ser.close()
