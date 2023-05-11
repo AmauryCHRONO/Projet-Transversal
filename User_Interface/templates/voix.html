@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h2>Commande vocale</h2>
+
+    <p> Vous pouvez contrôler les mouvements du robot grâce à ce module vocal.
+        <br> Appuyez sur le bouton ci-dessous afin de pouvoir commencer l'écoute.
+    </p>
+
+    <form method="post">
+        <input type="submit" class="sty_btn" value="Parlez" name="talk">
+    </form>
+
+{% endblock %}

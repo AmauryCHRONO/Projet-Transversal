@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <Title>Camerabot</Title>
+    </head>
+	<body>
+
+	{% include 'header.html' %}
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8  offset-lg-2">
+				<form method="post" action="{{ url_for('tasks') }}">
+				<input type="submit" value="Stop/Start" name="stop" />
+				<input type="submit" value="Capture" name="click"/>
+				<input type="submit" value="Start/Stop Recording" name="rec" />
+				</form>
+				<img src="{{ url_for('video_feed') }}" height="80%">
+				<ol style="font-family:courier;">
+			</div>
+		</div>
+	</div>
+	</body>
+</html>
