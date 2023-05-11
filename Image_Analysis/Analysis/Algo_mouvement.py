@@ -61,7 +61,7 @@ def decodage(donnees):
             angle.append(substring[0:5])
             distance.append(substring[6:10])
         elif substring.startswith("-"):
-            angle.append(substring[0:6])
+            angle.append(substring[0:5])
             distance.append(substring[7:11])
     
     # Retourne les listes d'angles et de distances
