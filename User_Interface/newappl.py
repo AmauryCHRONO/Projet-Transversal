@@ -116,8 +116,11 @@ def index():
                 distance = request.form['distance'+str(i)]
                 angle = request.form['angle'+str(i)]
                 print(f"Nom: {name} Distance: {distance} Angle: {angle}")
-                print("ok")
-                return render_template("home.html")
+                print("ok step")
+                res=requeteALLSTEP(name)
+                length=len(res)
+                print(res)
+                return render_template("info.html",res=res,length=length)
     else:
         return render_template("home.html")
 
