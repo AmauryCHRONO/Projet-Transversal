@@ -1,9 +1,8 @@
 from flask import Flask, render_template, Response, request
 import cv2
 import psycopg2
-import datetime, time
-import os, sys
-import numpy as np
+import datetime
+import os
 from threading import Thread
 
 global capture, rec_frame, out, switch
@@ -16,8 +15,6 @@ try:
 except OSError as error:
     pass
 
-
-net = cv2.dnn.readNetFromCaffe('User_Interface\saved_model\deploy.prototxt.txt', 'User_Interface/saved_model/res10_300x300_ssd_iter_140000.caffemodel')
 camera = cv2.VideoCapture(0)
 
 def gen_frames():  # generate frame by frame from camera
@@ -74,9 +71,9 @@ def tasks():
 
 """fonction DATABASE """
 con = psycopg2.connect(
-    database="jalon1",
+    database="drawbot_db",
     user="postgres",
-    password="CRONOS3317"
+    password="Ud7PsJab"
 )
 
 cur = con.cursor()
@@ -124,9 +121,15 @@ def index():
     else:
         return render_template("home.html")
 
-@app.route("/voix")
+@app.route("/voix", methods=['GET','POST'])
 def voice():
-    return render_template("voix.html")
+    if request.method=='POST':
+        return render_template("voix.html")
+    #
+    #TODO --> le bordel sur le bouton de voix
+    #
+    elif request.method=='GET':
+        return render_template("voix.html")
 
 
 if __name__=="__main__":
