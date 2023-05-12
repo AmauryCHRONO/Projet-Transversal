@@ -378,6 +378,24 @@ axs[1].axis('equal')
 axs[1].set_title('Image originale')
 plt.show()
 
+# Création du dossier pour stocker les images
+os.makedirs("steps", exist_ok=True)
+
+# Création d'une image blanche
+width, height = 800, 800
+image = np.ones((height, width, 3), dtype=np.uint8) * 255
+
+# Boucle pour itérer sur les points
+for i in range(1, len(x)):
+    # Dessin des traits jusqu'au point actuel
+    for j in range(i):
+        pt1 = (150 + (int(x[j] * (500 / 1500))), 150+(int(y[j] * (500 / 1500))))
+        pt2 = (150 + (int(x[j+1] * (500 / 1500))), 150+(int(y[j+1] * (500 / 1500))))
+        cv2.line(image, pt1, pt2, (0, 0, 0), 15)
+    
+    # Enregistrement de l'image dans le dossier "steps"
+    cv2.imwrite(f"steps/step{i}.png", image)
+
 deltas = []
 thetas_abs = []
 thetas_rel = []
