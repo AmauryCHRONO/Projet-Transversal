@@ -226,6 +226,11 @@ def manuelle():
         envoi(mode)
         return render_template("manuelle.html")
 
+@app.route("/control", methods=['GET','POST'])
+def control():
+    if request.method=='GET':
+        return render_template("control.html")
+
 
 if __name__=="__main__":
     app.run(debug=True)
