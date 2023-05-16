@@ -142,7 +142,7 @@ def tasks():
 con = psycopg2.connect(
     database="ptc",
     user="pierre-antoine",
-    password="PacMan91230"
+    password="0000"
 )
 def envoi(info):
     print(info)
