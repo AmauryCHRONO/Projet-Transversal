@@ -1,7 +1,6 @@
 import speech_recognition as sr
 import threading
 import psycopg2
-from flask import Flask, render_template, Response, request
 from queue import Queue
 
 def input_listening():
@@ -66,7 +65,7 @@ def listen_timeout():
         except sr.RequestError as e:
             print("Erreur de service de reconnaissance vocale : {}".format(e))
     return "Error"
-    
+
 
 if __name__ == "__main__":
     # FLASK
@@ -76,7 +75,7 @@ if __name__ == "__main__":
     con = psycopg2.connect(
         database="jalon1",
         user="postgres",
-        password="CRONOS3317"
+        password="MsBGNtGZ"
         )
     cur = con.cursor()
 

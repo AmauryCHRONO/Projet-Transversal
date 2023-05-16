@@ -10,9 +10,9 @@ from threading import Thread
     database="drawbot_db",
     user="postgres",
     password="Ud7PsJab"
-)
+)"""
 
-cur = con.cursor()"""
+cur = con.cursor()
 
 global capture,rec_frame, grey, switch, neg, face, rec, out 
 capture=0

@@ -5,11 +5,14 @@ import datetime
 import os
 from threading import Thread
 
-global capture, rec_frame, out, switch
+import speech_recognition as sr
+from queue import Queue
+
+global capture, rec_frame, out, switch,mode
 capture=0
 switch=1
 
-
+mode = "manuelle"
 try:
     os.mkdir('User_Interface\shots')
 except OSError as error:
@@ -37,6 +40,69 @@ def gen_frames():  # generate frame by frame from camera
                 
         else:
             pass
+
+
+def input_listening():
+    # Creation queue
+    result_queue = Queue()
+    # Démarrage thread
+    t = Thread(target=lambda q: q.put(listen_timeout()), args=(result_queue,))
+    t.start()
+
+    # Fin du thread
+    t.join()
+
+    # Recup resultat de listen_timeout
+    result = result_queue.get()
+    if result != "Error":
+        new = "'%" + str(result) + "%'"
+        req = " select i.id_image,i.image_name,s.distance_step,s.angle_step,s.index_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where s.index_step = 1 and i.image_name LIKE" + new
+
+        ex_com(req)
+        reponse = cur.fetchall()
+        if reponse == None:
+            return "aucun mot clé trouvé"
+        else:
+            return reponse
+
+def listen_timeout():
+    r = sr.Recognizer()
+    mic = sr.Microphone()
+
+    with mic as source:
+        print("calibration du microphone")
+        r.adjust_for_ambient_noise(source)
+        print("ECOUTE (Francais)")
+        audio = r.listen(source, phrase_time_limit=3)
+        try:
+            instruction = (testfr(r, audio))
+            print(instruction)
+            # envoie du resultat a input qui teste si besoin de shutdown
+            return instruction
+        except sr.UnknownValueError:
+            print("Impossible de comprendre la parole.")
+        except sr.RequestError as e:
+            print("Erreur de service de reconnaissance vocale : {}".format(e))
+    return "Error"
+
+def testfr(r, audio):
+    text = r.recognize_google(audio, language='fr-FR')
+    print("Vous avez dit : {}".format(text))
+
+    textMots = text.split()  # chercher mot exact
+
+    for i,mot in enumerate(textMots):
+        if mot == ("cercle"):
+            return mot
+        elif mot == ("carré"):
+            return mot
+        elif mot == ("rectangle"):
+            return mot
+        elif mot == ("diagonale"):
+            return mot
+        elif mot == ("trait"):
+            return mot
+    return "Aucun mot clef trouvé"
 
 app=Flask(__name__, template_folder="./templates")
 
@@ -71,10 +137,13 @@ def tasks():
 
 """fonction DATABASE """
 con = psycopg2.connect(
-    database="drawbot_db",
+    database="ptc",
     user="postgres",
     password="0000"
 )
+def envoi(info):
+    print(info)
+    return 0
 
 cur = con.cursor()
 
@@ -99,14 +168,17 @@ def requete(info):
 
 @app.route("/", methods=['GET','POST'])
 def index():
+    global mode 
+    mode = "dessin"
     if request.method == 'POST':
+        envoi(mode)
         if request.form['method'] == 'post1':
             model = request.form['cmd']
             res=requete(model)
             length=len(res)
             print(res)
             messages="Le modèle n'est pas présent"
-            return render_template("info.html",res=res,length=length)
+            return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden")
         for i in range(100):
             if request.form['method'] == str(i):
                 name = request.form['name'+str(i)]
@@ -117,19 +189,37 @@ def index():
                 res=requeteALLSTEP(name)
                 length=len(res)
                 print(res)
-                return render_template("info.html",res=res,length=length)
+                return render_template("info.html",res=res,length=length, typeSub="hidden",typeName="hidden",typeIndex="text")
     else:
+        envoi(mode)
         return render_template("home.html")
 
 @app.route("/voix", methods=['GET','POST'])
-def voice():
-    if request.method=='POST':
+def speechReco():
+    if request.method == 'POST':
+        res = input_listening()
+        print(res)
+        length = len(res)
+
+        messages = "le modele n'est pas present"
+        return render_template("info.html",res=res,length=length)
+    else:
         return render_template("voix.html")
+
+@app.route("/manuelle", methods=['GET','POST'])
+def manuelle():
+    global mode 
+    mode = "manuelle"
+    if request.method=='POST':
+        if request.form['method'] == 'post2':
+            envoi(mode)
+            return render_template("manuelle.html")
     #
     #TODO --> le bordel sur le bouton de voix
     #
     elif request.method=='GET':
-        return render_template("voix.html")
+        envoi(mode)
+        return render_template("manuelle.html")
 
 @app.route("/control", methods=['GET','POST'])
 def control():
