@@ -128,7 +128,7 @@ def tasks():
 """fonction DATABASE """
 con = psycopg2.connect(
     database="ptc",
-    user="postgres",
+    user="pierre-antoine",
     password="0000"
 )
 def envoi(info):
@@ -155,8 +155,9 @@ def requeteGenerale():
 
 def requete(info):
     new="'%"+str(info)+"%'"
-    req=" select i.id_image,i.image_name,s.distance_step,s.angle_step,s.index_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where s.index_step = 1 and i.image_name LIKE" +new
-    
+    #req=" select i.id_image,i.image_name,s.distance_step,s.angle_step,s.index_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where s.index_step = 1 and i.image_name LIKE" +new
+    req = "select i.image_name,count(s.index_step),sum(s.distance_step) from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where i.image_name LIKE" +new +"group by i.image_name"
+
     ex_com(req)
     return cur.fetchall()
 
