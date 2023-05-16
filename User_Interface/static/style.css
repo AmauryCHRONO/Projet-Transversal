@@ -113,10 +113,11 @@ div{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50%;
+    width: 70%;
     height: 20vh;
-    margin-bottom: 3px;
     margin: 0 auto;
+    margin-top: 3px;
+    margin-bottom: 3px;
     border: 1px solid black;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
@@ -130,7 +131,38 @@ div{
   }
   .sousbox2{
     height: 100%;
-    width: 50%;
+    width: 25%;
+  }
+
+  .sousbox3{
+    height: 100%;
+    width: 25%;
+  }
+
+  .sousbox3 input{
+    margin-left: 3px;
+    position: absolute;
+    max-width: 25%;
+    background-color: rgba(80, 80, 80, 0.8);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+  }
+
+  .p1{
+    top: 10%;
+    left: 26%;
+  }
+
+  .p2{
+    top: 30%;
+    left: 26%;
+  }
+
+  .p3{
+    top: 50%;
+    left: 26%;
   }
   
   .sousbox1 img {
@@ -146,7 +178,7 @@ div{
     border-radius: 5px;
     font-size: 12px;
     font-family: Arial, sans-serif;
-    width: 50%;
+    width: 20%;
   }
  
   .name {
