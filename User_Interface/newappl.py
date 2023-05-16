@@ -55,7 +55,8 @@ def input_listening():
     # Recup resultat de listen_timeout
     result = result_queue.get()
     if result != "Error":
-        new = "'%" + str(result) + "%'"
+        return result
+        """new = "'%" + str(result) + "%'"
         req = " select i.id_image,i.image_name,s.distance_step,s.angle_step,s.index_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where s.index_step = 1 and i.image_name LIKE" + new
 
         ex_com(req)
@@ -63,7 +64,7 @@ def input_listening():
         if reponse == None:
             return "aucun mot clé trouvé"
         else:
-            return reponse
+            return reponse"""
 
 def listen_timeout():
     r = sr.Recognizer()
@@ -197,12 +198,16 @@ def index():
 @app.route("/voix", methods=['GET','POST'])
 def speechReco():
     if request.method == 'POST':
-        res = input_listening()
-        print(res)
-        length = len(res)
+        resultat = input_listening()
 
-        messages = "le modele n'est pas present"
-        return render_template("info.html",res=res,length=length)
+        res=requete(resultat)
+        print(res)
+        if res!=[]:
+            length = len(res)
+            messages = "le modele n'est pas present"
+            return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden")
+        else:
+            return render_template("voix.html") 
     else:
         return render_template("voix.html")
 
