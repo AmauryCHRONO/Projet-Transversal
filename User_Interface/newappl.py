@@ -71,9 +71,11 @@ def listen_timeout():
     mic = sr.Microphone()
 
     with mic as source:
+
         print("calibration du microphone")
         r.adjust_for_ambient_noise(source)
         print("ECOUTE (Francais)")
+
         audio = r.listen(source, phrase_time_limit=3)
         try:
             instruction = (testfr(r, audio))
@@ -206,8 +208,6 @@ def speechReco():
             length = len(res)
             messages = "le modele n'est pas present"
             return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden")
-        else:
-            return render_template("voix.html") 
     else:
         return render_template("voix.html")
 
