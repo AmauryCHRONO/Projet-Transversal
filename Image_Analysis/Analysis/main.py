@@ -17,14 +17,14 @@ from skimage.measure import find_contours
 from scipy.signal import savgol_filter
 
 # Charger l'image
-image = cv2.imread("shots/form_random1.png")
+image = cv2.imread("Image_Analysis/Analysis/shots/coeur.png")
 #image = cv2.imread("shots/form_random2.png")
 #image = cv2.imread("shots/form_random3.png")
 #image = cv2.imread("shots/coeur.png")
 #image = cv2.imread("shots/trait.png")
 #image = cv2.imread("shots/trait_doigt.png")
 #image = cv2.imread("shots/griboulli.png")
-
+#print(image)
 plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 plt.axis('off')
 plt.show()
@@ -87,7 +87,6 @@ while max_area < 50000:
         perimeter = cv2.arcLength(cnt, True)
         approx = cv2.approxPolyDP(cnt, 0.02 * perimeter, True)
         if len(approx) == 4 and area > max_area:
-            print("jknfsd")
             max_area = area
             best_cnt = cnt
             print(max_area)
@@ -202,7 +201,6 @@ else:
 
 # Définir les quatre coins de l'image de sortie (en ordre : haut-gauche, haut-droit, bas-droit, bas-gauche)
 dst = np.array([(0, 0), (width, 0), (width, height), (0, height)])
-
 
 # Calculer la matrice de transformation
 M = cv2.getPerspectiveTransform(rect.astype(np.float32), dst.astype(np.float32))

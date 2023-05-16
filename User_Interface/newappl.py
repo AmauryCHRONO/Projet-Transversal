@@ -73,7 +73,7 @@ def tasks():
 con = psycopg2.connect(
     database="drawbot_db",
     user="postgres",
-    password="Ud7PsJab"
+    password="0000"
 )
 
 cur = con.cursor()
@@ -130,6 +130,11 @@ def voice():
     #
     elif request.method=='GET':
         return render_template("voix.html")
+
+@app.route("/control", methods=['GET','POST'])
+def control():
+    if request.method=='GET':
+        return render_template("control.html")
 
 
 if __name__=="__main__":
