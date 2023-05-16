@@ -43,28 +43,20 @@ def gen_frames():  # generate frame by frame from camera
 
 
 def input_listening():
-    # Creation queue
-    result_queue = Queue()
-    # Démarrage thread
-    t = Thread(target=lambda q: q.put(listen_timeout()), args=(result_queue,))
-    t.start()
+    try:
+        # Creation queue
+        result_queue = Queue()
+        # Démarrage thread
+        t = Thread(target=lambda q: q.put(listen_timeout()), args=(result_queue,))
+        t.start()
 
-    # Fin du thread
-    t.join()
-
-    # Recup resultat de listen_timeout
-    result = result_queue.get()
-    if result != "Error":
-        return result
-        """new = "'%" + str(result) + "%'"
-        req = " select i.id_image,i.image_name,s.distance_step,s.angle_step,s.index_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where s.index_step = 1 and i.image_name LIKE" + new
-
-        ex_com(req)
-        reponse = cur.fetchall()
-        if reponse == None:
-            return "aucun mot clé trouvé"
-        else:
-            return reponse"""
+        # Fin du thread
+        t.join()
+        # Recup resultat de listen_timeout
+        result = result_queue.get()
+    except:
+        result = "Error"
+    return result
 
 def listen_timeout():
     r = sr.Recognizer()
@@ -80,7 +72,6 @@ def listen_timeout():
         try:
             instruction = (testfr(r, audio))
             print(instruction)
-            # envoie du resultat a input qui teste si besoin de shutdown
             return instruction
         except sr.UnknownValueError:
             print("Impossible de comprendre la parole.")
@@ -92,19 +83,15 @@ def testfr(r, audio):
     text = r.recognize_google(audio, language='fr-FR')
     print("Vous avez dit : {}".format(text))
 
+    listeMot = requeteGenerale()
+
     textMots = text.split()  # chercher mot exact
 
-    for i,mot in enumerate(textMots):
-        if mot == ("cercle"):
-            return mot
-        elif mot == ("carré"):
-            return mot
-        elif mot == ("rectangle"):
-            return mot
-        elif mot == ("diagonale"):
-            return mot
-        elif mot == ("trait"):
-            return mot
+    for mot in textMots:
+        for i in listeMot:
+            if i[0] == mot:
+                return mot
+            
     return "Aucun mot clef trouvé"
 
 app=Flask(__name__, template_folder="./templates")
@@ -161,6 +148,11 @@ def requeteALLSTEP(info):
     ex_com(req)
     return cur.fetchall()
 
+def requeteGenerale():
+    req = "select image_name from image"
+    ex_com(req)
+    return cur.fetchall()
+
 def requete(info):
     new="'%"+str(info)+"%'"
     req=" select i.id_image,i.image_name,s.distance_step,s.angle_step,s.index_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where s.index_step = 1 and i.image_name LIKE" +new
@@ -180,7 +172,6 @@ def index():
             res=requete(model)
             length=len(res)
             print(res)
-            messages="Le modèle n'est pas présent"
             return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden")
         for i in range(100):
             if request.form['method'] == str(i):
@@ -206,10 +197,11 @@ def speechReco():
         print(res)
         if res!=[]:
             length = len(res)
-            messages = "le modele n'est pas present"
+
             return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden")
-    else:
-        return render_template("voix.html")
+        else:
+            return render_template("voix.html",message = "Mot non trouvé")
+    return render_template("voix.html")
 
 @app.route("/manuelle", methods=['GET','POST'])
 def manuelle():
