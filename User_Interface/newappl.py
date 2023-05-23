@@ -128,7 +128,7 @@ def tasks():
 """fonction DATABASE """
 con = psycopg2.connect(
     database="ptc",
-    user="pierre-antoine",
+    user="postgres",
     password="0000"
 )
 def envoi(info):
@@ -143,7 +143,7 @@ def ex_com(q):
 
 def requeteALLSTEP(info):
     new="'%"+str(info)+"%'"
-    req="select i.id_image,i.image_name,s.distance_step,s.angle_step,s.index_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where i.image_name LIKE "+new
+    req="select i.id_image,s.index_step,i.image_name,s.distance_step,s.angle_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where i.image_name LIKE "+new
     
     ex_com(req)
     return cur.fetchall()
