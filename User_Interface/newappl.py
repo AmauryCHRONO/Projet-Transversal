@@ -128,7 +128,7 @@ def tasks():
 """fonction DATABASE """
 con = psycopg2.connect(
     database="ptc",
-    user="postgres",
+    user="pierre-antoine",
     password="0000"
 )
 def envoi(info):
@@ -225,6 +225,21 @@ def manuelle():
     elif request.method=='GET':
         envoi(mode)
         return render_template("manuelle.html")
+    
+@app.route('/light_up', methods=['POST'])
+def light_up():
+    key_pressed = request.form.get('key')
+    if key_pressed == 'Z' or key_pressed == 'z':
+        return 'success'  # You can return any response you want here
+    if key_pressed == 'Q' or key_pressed == 'q':
+        return 'success'  # You can return any response you want here
+    if key_pressed == 'S' or key_pressed == 's':
+        return 'success'  # You can return any response you want here
+    if key_pressed == 'D' or key_pressed == 'd':
+        return 'success'  # You can return any response you want here
+    if key_pressed == ' ':
+        return 'success'  # You can return any response you want here
+    return 'failure'  #Sinon on renvoie failure
 
 @app.route("/control", methods=['GET','POST'])
 def control():
@@ -237,4 +252,4 @@ if __name__=="__main__":
 
     
 camera.release()
-cv2.destroyAllWindows()  
+cv2.destroyAllWindows()

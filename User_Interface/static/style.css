@@ -202,3 +202,53 @@ div{
     margin-top: 1px;
   }
 /**bdd*/
+
+    .grodiv {
+    height: 100vh;
+    margin: 0;
+    }
+    
+    .grodiv div {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-color: #25aae1;
+    color: white;
+    text-align: center;
+    font-size: 48px;
+    line-height: 100px;
+    transition: .4s ease;
+    }
+
+    #square1 {
+      top: 10%;
+      left: 46%;
+    }
+
+    #square2 {
+      top: 40%;
+      left: 15%;
+    }
+
+    #square3 {
+      top: 40%;
+      left: 46%;
+    }
+
+    #square4 {
+      top: 40%;
+      left: 80%;
+    }
+
+    #spacebar {
+    position: absolute;
+    width: 400px;
+    height: 100px;
+    background-color: #25aae1;
+    color: white;
+    text-align: center;
+    font-size: 48px;
+    line-height: 100px;
+    top: 70%;
+    left: 36%;
+    }
