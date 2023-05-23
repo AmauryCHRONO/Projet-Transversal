@@ -5,12 +5,21 @@
     <div class="box">
         <form class="sousbox2" method="POST" action="/">
             <input type="hidden" name="method" value="{{i}}">
-            <input type="{{typeName}}" class="info name" name='name{{i}}' value="{{res[i][1]}}" readonly>
+            <input type="{{typeName}}" class="info name" name='name{{i}}' value="{{res[i][0]}}" readonly>
             <input type="{{typeIndex}}" class="info name" name='name{{i}}' value="{{res[i][4]}}" readonly>
+            <input type="text"  class="info angle" name='angle{{i}}'value="{{res[i][1]}}" readonly>
             <input type="text"  class="info distance" name='distance{{i}}' value="{{res[i][2]}}" readonly>
-            <input type="text"  class="info angle" name='angle{{i}}'value="{{res[i][3]}}" readonly>
             <input  class="info submit" type="{{typeSub}}" id="sub" value="votre choix">
         </form>
+        <div class="sousbox3">
+            <input type="{{typeName}}" class="p1" value="Nom de la figure" readonly>
+            <input type="{{typeName}}" class="p2" value="Nombre d'étapes" readonly>
+            <input type="{{typeName}}" class="p3" value="Distance totale" readonly>
+
+            <input type="{{typeIndex}}" class="p1" value="Numéro de l'étape" readonly>
+            <input type="{{typeIndex}}" class="p2" value="Angle" readonly>
+            <input type="{{typeIndex}}" class="p3" value="Distance de l'étape" readonly>
+        </div>
         <div class="sousbox1">
             <img src="static\memage.jpg" alt="Image avec informations"> 
         </div>
