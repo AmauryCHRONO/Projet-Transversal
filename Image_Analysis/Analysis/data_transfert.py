@@ -31,6 +31,21 @@ def envoyer_donnees_serial(donnees, port, vitesse_baud=19200, timeout=1):
 with open('donnees.json', 'r') as f:
     donnees = json.load(f)
 
+status = True
+while status == True:
+    grandeur = input("entrer une unitée de grandeur : n = millimètre | c = centimètre | m = mètres : \n")
+    if grandeur == 'n':
+        print("n choisi")
+        status = False
+    elif grandeur == 'c':
+        print("c choisi")
+        status = False
+    elif grandeur == 'm':
+        print("m choisi")
+        status = False
+    else:
+        print('Aïe')
+
 output = "I"
 for point in donnees['points']:
 
@@ -42,6 +57,8 @@ for point in donnees['points']:
         angle =str('+'+angle)
 
     distance = str(round(round(point['distance']*10, 1))).zfill(4)
+
+    distance = grandeur + distance
     output = output + angle + "/" + distance + "||"
 
 output = output + "<"
