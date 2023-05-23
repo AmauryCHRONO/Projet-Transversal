@@ -42,10 +42,10 @@ plt.show()"""
 
 # Convertir en niveaux de gris
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-plt.imshow(gray,'gray')
-plt.axis('off')
-plt.show()
+"""affichage gris inutile"""
+#plt.imshow(gray,'gray')
+#plt.axis('off')
+#plt.show()
 
 valeur_seuil = 190
 max_area = 0
@@ -54,10 +54,11 @@ while max_area < 50000:
     # Binariser l'image
     _, thresh = cv2.threshold(gray, valeur_seuil, 255, cv2.THRESH_BINARY)
 
+    """ Boucle d'affichage inutile 
     plt.imshow(thresh,'gray')
     plt.axis('off')
     plt.show()
-
+    """
     # Appliquer un filtre morphologique
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (20,20))
     closing = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
@@ -86,7 +87,7 @@ while max_area < 50000:
     valeur_seuil -= 1
 
 # Vérifier si le contour trouvé est suffisamment grand pour être un bord de papier
-if max_area > (closing.shape[0] * closing.shape[1]) / 4:
+"""if max_area > (closing.shape[0] * closing.shape[1]) / 4:
     # Hachurer la plus grande aire
     best_cnt = best_cnt.reshape(best_cnt.shape[0], 2)
     fig, ax = plt.subplots(figsize=(8, 8))
@@ -103,7 +104,7 @@ plt.contour(edges, levels=[0], colors='red')
 plt.title('Contours et aire maximale')
 plt.text(10, 30, f'Aire maximale : {max_area:.2f}', color='white')
 plt.axis('off')
-plt.show()
+plt.show()"""
 
 # Appliquer la détection de contours avec Canny
 edges = cv2.Canny(closing, 165, 255)
@@ -123,7 +124,7 @@ for cnt in contours:
 best_cnt = best_cnt.reshape(best_cnt.shape[0], 2)
 
 # Tracer les contours et la plus grande aire
-fig, ax = plt.subplots(figsize=(8, 8))
+"""fig, ax = plt.subplots(figsize=(8, 8))
 ax.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
 # Ajouter un titre et une légende
@@ -143,7 +144,7 @@ ax.contour(best_cnt, levels=[0], colors='blue')
 ax.fill(best_cnt[:, 0], best_cnt[:, 1], hatch='/', alpha=0.3, edgecolor='blue')
 plt.axis('off')
 plt.show()
-
+"""
 # Approximer le contour de l'aire hachurée en un polygone plus simple
 epsilon = 0.05 * cv2.arcLength(best_cnt, True)
 approx = cv2.approxPolyDP(best_cnt, epsilon, True)
@@ -202,20 +203,20 @@ M = cv2.getPerspectiveTransform(rect.astype(np.float32), dst.astype(np.float32))
 warped = cv2.warpPerspective(gray, M, (width, height))
 
 # Afficher l'image de départ et l'image transformée
-fig, axs = plt.subplots(1, 2, figsize=(10, 10))
+"""fig, axs = plt.subplots(1, 2, figsize=(10, 10))
 axs[0].imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 axs[0].plot(rect[:, 0], rect[:, 1], 'o-', color='red', linewidth=2)
 axs[0].set_title('Image originale')
 axs[1].imshow(cv2.cvtColor(warped, cv2.COLOR_BGR2RGB))
 axs[1].set_title('Image transformée')
 plt.show()
-
+"""
 # Binariser l'image
 _, thresh = cv2.threshold(warped, 160, 255, cv2.THRESH_BINARY)
 
-plt.imshow(thresh,'gray')
-plt.axis('off')
-plt.show()
+#plt.imshow(thresh,'gray')
+#plt.axis('off')
+#plt.show()
 
 S = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
 thresh = cv2.dilate(thresh, S, iterations = 2)
@@ -225,9 +226,9 @@ thresh = cv2.erode(thresh, S, iterations = 15)
 
 thresh = np.invert(thresh)
 
-plt.imshow(thresh,'gray')
-plt.axis('off')
-plt.show()
+#plt.imshow(thresh,'gray')
+#plt.axis('off')
+#plt.show()
 
 def rdp(points, epsilon):
     """ Implémentation de l'algorithme de Ramer-Douglas-Peucker pour simplifier une suite de points """
@@ -325,7 +326,7 @@ x.append(x[0])
 y.append(y[0])
 
 # Afficher les points sur l'image tresh
-fig, axs = plt.subplots(1, 2, figsize=(7, 7))
+"""fig, axs = plt.subplots(1, 2, figsize=(7, 7))
 axs[0].imshow(thresh, cmap='gray')
 axs[0].plot(x, y, 'r.',linewidth = 0.001)
 axs[0].axis('equal')
@@ -336,7 +337,7 @@ plt.ylim(max(y), min(y)) # inverse les limites de l'axe y
 axs[1].axis('equal')
 axs[1].set_title('Image originale')
 plt.show()
-
+"""
 x.pop(-1)
 y.pop(-1)
 
