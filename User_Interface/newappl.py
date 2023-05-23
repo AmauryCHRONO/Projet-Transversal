@@ -180,7 +180,9 @@ def index():
             res=requete(model)
             length=len(res)
             print(res)
-            return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden")
+            
+            img = requeteUrl(model)
+            return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden",urlImage = img[0][0])
         for i in range(100):
             if request.form['method'] == str(i):
                 name = request.form['name'+str(i)]
@@ -191,7 +193,9 @@ def index():
                 res=requeteALLSTEP(name)
                 length=len(res)
                 print(res)
-                return render_template("info.html",res=res,length=length, typeSub="hidden",typeName="hidden",typeIndex="text")
+
+                img = requeteUrl(name)
+                return render_template("info.html",res=res,length=length, typeSub="hidden",typeName="hidden",typeIndex="text",urlImage = img[0][0])
     else:
         envoi(mode)
         return render_template("home.html")
