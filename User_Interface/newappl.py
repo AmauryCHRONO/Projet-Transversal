@@ -128,7 +128,7 @@ def tasks():
 """fonction DATABASE """
 con = psycopg2.connect(
     database="ptc",
-    user="pierre-antoine",
+    user="postgres",
     password="0000"
 )
 def envoi(info):
@@ -160,6 +160,13 @@ def requete(info):
 
     ex_com(req)
     return cur.fetchall()
+
+def requeteUrl(info):
+    new="'%"+str(info)+"%'"
+    req = "select image_url from image where image_name LIKE "+new
+    ex_com(req)
+    return cur.fetchall()
+
 
 
 @app.route("/", methods=['GET','POST'])
@@ -193,13 +200,13 @@ def index():
 def speechReco():
     if request.method == 'POST':
         resultat = input_listening()
-
         res=requete(resultat)
         print(res)
         if res!=[]:
             length = len(res)
-
-            return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden")
+            img = requeteUrl(resultat)
+            print(img[0][0])
+            return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden",urlImage=img[0][0])
         else:
             return render_template("voix.html",message = "Mot non trouvé")
     return render_template("voix.html")
