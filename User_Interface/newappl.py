@@ -15,12 +15,13 @@ import serial
 global capture, rec_frame, out, switch,mode,mode_connu
 capture=0
 switch=1
-ser_ordi=serial.Serial('COM3',19200,timeout=1)
+global ser_ordi
+ser_ordi=serial.Serial('COM3',baudrate=19200)
 if not ser_ordi.isOpen():
     ser_ordi.open()
 mode_connu=False
 
-(ser_ordi.read_until(b"<"))
+ser_ordi.read_until(b"<")
 
 try:
     os.mkdir('User_Interface\shots')
@@ -30,7 +31,6 @@ except OSError as error:
 camera = cv2.VideoCapture(0)
 
 def envoi(info):
-    ser_ordi=serial.Serial('COM3',19200,timeout=1)
     if mode_connu:
         df.envoyer_donnees_serial("stop<",'COM3',19200,timeout=1)
     info="pasok"
