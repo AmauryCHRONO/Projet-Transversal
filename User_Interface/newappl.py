@@ -12,17 +12,37 @@ import serial
 
 
 
-global capture, rec_frame, out, switch,mode
+global capture, rec_frame, out, switch,mode,mode_connu
 capture=0
 switch=1
+ser_ordi=serial.Serial('COM3',19200,timeout=1)
+if not ser_ordi.isOpen():
+    ser_ordi.open()
+mode_connu=False
 
-mode = "manuelle"
+(ser_ordi.read_until(b"<"))
+
 try:
     os.mkdir('User_Interface\shots')
 except OSError as error:
     pass
 
 camera = cv2.VideoCapture(0)
+
+def envoi(info):
+    ser_ordi=serial.Serial('COM3',19200,timeout=1)
+    if mode_connu:
+        df.envoyer_donnees_serial("stop<",'COM3',19200,timeout=1)
+    info="pasok"
+    while info!="OK<":
+        df.envoyer_donnees_serial(mode,'COM3',19200,timeout=1)
+        info=str(ser_ordi.read_until(b"<"))
+        print("Mode recu")
+    return 0
+
+mode = "dessin"
+envoi(mode)
+mode_connu=True
 
 def gen_frames():  # generate frame by frame from camera
     global out, capture,rec_frame
@@ -37,6 +57,7 @@ def gen_frames():  # generate frame by frame from camera
                 image.anaimage(p)
                 out = df.traitement_transfert()
                 df.envoyer_donnees_serial(out, "COM3", vitesse_baud=19200)
+
             try:
                 ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
                 frame = buffer.tobytes()
@@ -110,6 +131,10 @@ def video_feed():
 @app.route('/capture',methods=['POST','GET'])
 def tasks():
     global switch,camera
+    mode_new="dessin"
+    if mode_new!=mode:        
+        envoi(mode)
+
     if request.method == 'POST':
         if request.form.get('click') == 'Capture':
             global capture
@@ -135,13 +160,11 @@ def tasks():
 
 """fonction DATABASE """
 con = psycopg2.connect(
-    database="jalon1",
+    database="ptc",
     user="postgres",
     password="0000"
 )
-def envoi(info):
-    print(info)
-    return 0
+
 
 cur = con.cursor()
 
@@ -180,9 +203,11 @@ def requeteUrl(info):
 @app.route("/", methods=['GET','POST'])
 def index():
     global mode 
-    mode = "dessin"
-    if request.method == 'POST':
+    mode_new="dessin"
+    if mode_new!=mode:        
         envoi(mode)
+
+    if request.method == 'POST':
         if request.form['method'] == 'post1':
             model = request.form['cmd']
             res=requete(model)
@@ -207,11 +232,15 @@ def index():
                 ser.close()
                 return render_template("info.html",res=res,length=length, typeSub="hidden",typeName="hidden",typeIndex="text")
     else:
-        envoi(mode)
         return render_template("home.html")
 
 @app.route("/voix", methods=['GET','POST'])
-def speechReco():
+def speechReco(): 
+
+    mode_new="dessin"
+    if mode_new!=mode:        
+        envoi(mode)
+
     if request.method == 'POST':
         resultat = input_listening()
         res=requete(resultat)
@@ -228,10 +257,13 @@ def speechReco():
 @app.route("/manuelle", methods=['GET','POST'])
 def manuelle():
     global mode 
-    mode = "manuelle"
+    mode_new="telecommande"
+    if mode_new!=mode:        
+        envoi(mode)
+
     if request.method=='POST':
         if request.form['method'] == 'post2':
-            envoi(mode)
+           
             return render_template("manuelle.html")
     #
     #TODO --> le bordel sur le bouton de voix

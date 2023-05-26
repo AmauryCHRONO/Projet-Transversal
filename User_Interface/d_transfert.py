@@ -14,8 +14,8 @@ def envoyer_donnees_serial(donnees, port, vitesse_baud=19200, timeout=1):
         ser = serial.Serial(port, vitesse_baud, timeout=timeout)
         print("Port série ouvert :", ser.name)
 
-        #if type(donnees) == str:
-        #    donnees = donnees.encode()
+        if type(donnees) == str:
+            donnees = donnees.encode()
 
         ser.write(b"%s",donnees)
         print("Données envoyées :", donnees)
