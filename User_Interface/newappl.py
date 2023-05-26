@@ -4,9 +4,13 @@ import psycopg2
 import datetime
 import os
 from threading import Thread
-
+import image
+import d_transfert as df
 import speech_recognition as sr
 from queue import Queue
+import serial
+
+
 
 global capture, rec_frame, out, switch,mode
 capture=0
@@ -30,6 +34,9 @@ def gen_frames():  # generate frame by frame from camera
                 now = datetime.datetime.now()
                 p = os.path.sep.join(['User_Interface/shots', "shot_{}.png".format(str(now).replace(":",''))])
                 cv2.imwrite(p, frame)
+                image.anaimage(p)
+                out = df.traitement_transfert()
+                df.envoyer_donnees_serial(out, "COM3", vitesse_baud=19200)
             try:
                 ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
                 frame = buffer.tobytes()
@@ -107,6 +114,7 @@ def tasks():
         if request.form.get('click') == 'Capture':
             global capture
             capture=1
+            
 
         elif  request.form.get('stop') == 'Stop/Start':
             
@@ -127,8 +135,8 @@ def tasks():
 
 """fonction DATABASE """
 con = psycopg2.connect(
-    database="ptc",
-    user="pierre-antoine",
+    database="jalon1",
+    user="postgres",
     password="0000"
 )
 def envoi(info):
@@ -184,6 +192,9 @@ def index():
                 res=requeteALLSTEP(name)
                 length=len(res)
                 print(res)
+                ser=serial.Serial('COM3',19200,timeout=1)
+                ser.write(b'wow')
+                ser.close()
                 return render_template("info.html",res=res,length=length, typeSub="hidden",typeName="hidden",typeIndex="text")
     else:
         envoi(mode)
