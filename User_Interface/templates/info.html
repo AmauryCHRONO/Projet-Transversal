@@ -7,7 +7,8 @@
             <input type="hidden" name="method" value="{{i}}">
             <input type="{{typeName}}" class="info name" name='name{{i}}' value="{{res[i][0]}}" readonly>
             <input type="{{typeIndex}}" class="info name" name='name{{i}}' value="{{res[i][4]}}" readonly>
-            <input type="text"  class="info angle" name='angle{{i}}'value="{{res[i][1]}}" readonly>
+            <input type="{{typeName}}"  class="info angle" name='angle{{i}}'value="{{res[i][1]}}" readonly>
+            <input type="{{typeIndex}}"  class="info angle" name='angle{{i}}'value="{{res[i][3]}}" readonly>
             <input type="text"  class="info distance" name='distance{{i}}' value="{{res[i][2]}}" readonly>
             <input  class="info submit" type="{{typeSub}}" id="sub" value="votre choix">
         </form>
@@ -21,7 +22,7 @@
             <input type="{{typeIndex}}" class="p3" value="Distance de l'étape" readonly>
         </div>
         <div class="sousbox1">
-            <img src="static\memage.jpg" alt="Image avec informations"> 
+            <img src="{{urlImage}}" alt="Image avec informations"> 
         </div>
     </div>
 {%endfor%}

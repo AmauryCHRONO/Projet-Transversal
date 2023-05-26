@@ -151,7 +151,7 @@ def ex_com(q):
 
 def requeteALLSTEP(info):
     new="'%"+str(info)+"%'"
-    req="select i.id_image,i.image_name,s.distance_step,s.angle_step,s.index_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where i.image_name LIKE "+new
+    req="select i.id_image,s.index_step,i.image_name,s.distance_step,s.angle_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where i.image_name LIKE "+new
     
     ex_com(req)
     return cur.fetchall()
@@ -169,6 +169,13 @@ def requete(info):
     ex_com(req)
     return cur.fetchall()
 
+def requeteUrl(info):
+    new="'%"+str(info)+"%'"
+    req = "select image_url from image where image_name LIKE "+new
+    ex_com(req)
+    return cur.fetchall()
+
+
 
 @app.route("/", methods=['GET','POST'])
 def index():
@@ -181,7 +188,9 @@ def index():
             res=requete(model)
             length=len(res)
             print(res)
-            return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden")
+            
+            img = requeteUrl(model)
+            return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden",urlImage = img[0][0])
         for i in range(100):
             if request.form['method'] == str(i):
                 name = request.form['name'+str(i)]
@@ -192,6 +201,7 @@ def index():
                 res=requeteALLSTEP(name)
                 length=len(res)
                 print(res)
+                img = requeteUrl(name)
                 ser=serial.Serial('COM3',19200,timeout=1)
                 ser.write(b'wow')
                 ser.close()
@@ -204,13 +214,13 @@ def index():
 def speechReco():
     if request.method == 'POST':
         resultat = input_listening()
-
         res=requete(resultat)
         print(res)
         if res!=[]:
             length = len(res)
-
-            return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden")
+            img = requeteUrl(resultat)
+            print(img[0][0])
+            return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden",urlImage=img[0][0])
         else:
             return render_template("voix.html",message = "Mot non trouvé")
     return render_template("voix.html")
@@ -229,6 +239,21 @@ def manuelle():
     elif request.method=='GET':
         envoi(mode)
         return render_template("manuelle.html")
+    
+@app.route('/light_up', methods=['POST'])
+def light_up():
+    key_pressed = request.form.get('key')
+    if key_pressed == 'Z' or key_pressed == 'z':
+        return 'success'  # You can return any response you want here
+    if key_pressed == 'Q' or key_pressed == 'q':
+        return 'success'  # You can return any response you want here
+    if key_pressed == 'S' or key_pressed == 's':
+        return 'success'  # You can return any response you want here
+    if key_pressed == 'D' or key_pressed == 'd':
+        return 'success'  # You can return any response you want here
+    if key_pressed == ' ':
+        return 'success'  # You can return any response you want here
+    return 'failure'  #Sinon on renvoie failure
 
 @app.route("/control", methods=['GET','POST'])
 def control():
@@ -241,4 +266,4 @@ if __name__=="__main__":
 
     
 camera.release()
-cv2.destroyAllWindows()  
+cv2.destroyAllWindows()

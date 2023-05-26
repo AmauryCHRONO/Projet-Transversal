@@ -1,12 +1,23 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../static/script.js"></script>
+    <!--div>
         <form action="/manuelle", method="POST">
             <input type="hidden" name="method" value="post2">
             <input type="text" id="cmd" name="cmd" placeholder="Entrez un modèle" required><br><br>
             <input type="submit" id="sub" value="Soumettre">
         </form>
+    </div-->
+    <div class="grodiv">
+        <div id="square1">Z</div>
+        <div id="square2">Q</div>
+        <div id="square3">S</div>
+        <div id="square4">D</div>
+        <div id="spacebar">Barre Espace</div>
     </div>
+
+    
 
 {% endblock %}
