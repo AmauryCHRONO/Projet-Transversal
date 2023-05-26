@@ -2,7 +2,7 @@ import speech_recognition as sr
 import threading
 from serial import Serial
 
-ser = Serial(port="COM3",baudrate=19200)
+ser = Serial(port="COM4",baudrate=19200)
 
 def input_listening():
     test = True

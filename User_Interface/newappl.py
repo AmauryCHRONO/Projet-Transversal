@@ -21,8 +21,6 @@ if not ser_ordi.isOpen():
     ser_ordi.open()
 mode_connu=False
 
-ser_ordi.read_until(b"<")
-
 try:
     os.mkdir('User_Interface\shots')
 except OSError as error:
@@ -31,18 +29,25 @@ except OSError as error:
 camera = cv2.VideoCapture(0)
 
 def envoi(info):
-    if mode_connu:
-        df.envoyer_donnees_serial("stop<",'COM3',19200,timeout=1)
+    txt = "stop<"
+    txtE = txt.encode()
+    #df.envoyer_donnees_serial("stop<",ser_ordi)
+    ser_ordi.write(txtE)
     info="pasok"
     while info!="OK<":
-        df.envoyer_donnees_serial(mode,'COM3',19200,timeout=1)
-        info=str(ser_ordi.read_until(b"<"))
+        txt = mode+"<"
+        txtE = txt.encode()
+        ser_ordi.write(txtE)
+        #df.envoyer_donnees_serial(mode+"<",ser_ordi)
+        print("awaiting")
+        info=str(ser_ordi.read_until(b"<"))[2:-1]
+        print(info)
         print("Mode recu")
     return 0
 
-mode = "dessin"
+'''mode = "dessin"
 envoi(mode)
-mode_connu=True
+mode_connu=True'''
 
 def gen_frames():  # generate frame by frame from camera
     global out, capture,rec_frame
@@ -56,7 +61,7 @@ def gen_frames():  # generate frame by frame from camera
                 cv2.imwrite(p, frame)
                 image.anaimage(p)
                 out = df.traitement_transfert()
-                df.envoyer_donnees_serial(out, "COM3", vitesse_baud=19200)
+                df.envoyer_donnees_serial(out, ser_ordi)
 
             try:
                 ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
@@ -227,9 +232,6 @@ def index():
                 length=len(res)
                 print(res)
                 img = requeteUrl(name)
-                ser=serial.Serial('COM3',19200,timeout=1)
-                ser.write(b'wow')
-                ser.close()
                 return render_template("info.html",res=res,length=length, typeSub="hidden",typeName="hidden",typeIndex="text")
     else:
         return render_template("home.html")
@@ -292,6 +294,7 @@ def control():
     if request.method=='GET':
         return render_template("control.html")
 
+ser_ordi.close()
 
 if __name__=="__main__":
     app.run(debug=True)
