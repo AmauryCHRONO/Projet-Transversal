@@ -33,7 +33,7 @@ def telecommande(ser_ordi, ser_STM):
         command = str(command)
         command = command[2:-1]
 
-        if command == "fin<": # Fin du programme
+        if command == "f<": # Fin du programme
             boucle = False
         if command == "z<": # Avancer 
             envoiInstruction("z", ser_STM)
@@ -60,19 +60,19 @@ def envoiInstruction(direction, ser):
         ser(Serial object): Liaison série entre l'ordinateur de commande et la carte d'execution.
     """
     if direction=='z':
-        ser.write(b'z00000')
+        ser.write(b'z00000<')
     if direction=='s':
-        ser.write(b's00000')
+        ser.write(b's00000<')
     if direction=='q':
-        ser.write(b'q00000')
+        ser.write(b'q00000<')
     if direction=='d':
-        ser.write(b'd00000')
+        ser.write(b'd00000<')
     if direction=='f':
-        ser.write(b'f00000')
+        ser.write(b'f00000<')
     if direction=='a':
-        ser.write(b'p00000')
+        ser.write(b'p00000<')
     if direction=='e':
-        ser.write(b'u00000')
+        ser.write(b'u00000<')
 
 
 
@@ -89,9 +89,9 @@ def dessin(ser_STM, ser_ordi, lidar):
     """
 
     boucle = True
-    while(boucle):
+    ser_ordi.write("OK<") # Annonce d'attente de données
 
-        ser_ordi.write("OK<") # Annonce d'attente de données
+    while(boucle):
 
         # Réception de données et traitement
         donnees = ser_STM.read_until(b"<")
@@ -99,11 +99,15 @@ def dessin(ser_STM, ser_ordi, lidar):
         donnees = donnees[2:-1]
 
         if donnees[0] == "I": # TRaitement et utilisation des données reçus
+            ser_ordi.write("OK<")
             angles, distances = decodage(donnees)
             deplacement(ser_STM, ser_ordi, lidar, angles, distances)
 
         elif donnees == "stop<": # Fin du programme
             boucle = False
+        
+        else:
+            ser_ordi.write(b"NO<")
 
     envoiInstruction("f", ser_STM)
     print('Arrêt du programme de dessin.')
@@ -173,6 +177,8 @@ def deplacement(ser_STM, ser_ordi, lidar, angles, distances):
                 msg = msg.encode()
                 ser_ordi.write(msg)
                 ser_ordi.read_until(b"<")
+    
+    ser_ordi.write(b"fin dessin")
 
 def detectionObstacleDessin(lidar, distance_test):
     """
@@ -227,7 +233,7 @@ def  traitementdessin(tour):
         distance = scan[1]
         angle = scan[0]
 
-        if  (distance*math.sin(np.deg2rad(angle)) >= -200 and angle >= 180) or (distance*math.sin(np.deg2rad(angle)) <= 80 and angle <= 180): # Obstacle considéré que losqu'il se situe sur le trajet de la base roulante.
+        if  (distance*math.sin(np.deg2rad(angle)) <= 200 and angle <= 180) or (distance*math.sin(np.deg2rad(angle)) >= -80 and angle >= 180): # Obstacle considéré que losqu'il se situe sur le trajet de la base roulante.
             obstacle = True
 
     return obstacle
@@ -315,7 +321,7 @@ def main():
     while(boucle):
 
         # Réception de données et traitement
-        instruction = ser_ordi.read_until('<')
+        instruction = ser_ordi.read_until(b"<")
         instruction = str(instruction)
         instruction = instruction[2:-1]
 
@@ -323,11 +329,15 @@ def main():
         if instruction == "telecommande<":
             telecommande(ser_ordi, ser_STM)
 
-        if instruction == "dessin<":
+        elif instruction == "dessin<":
             dessin(ser_STM, ser_ordi, lidar)
 
-        if instruction == "stop<":
+        elif instruction == "stop<":
             boucle = False
+        
+        else:
+            ser_ordi.write(b"NO<")
+
 
     # Arrêt du robot
     print("Arrêt du robot")
