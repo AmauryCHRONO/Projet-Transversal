@@ -1,7 +1,7 @@
 import serial
 import json
 
-def envoyer_donnees_serial(donnees, port, vitesse_baud=19200, timeout=1):
+def envoyer_donnees_serial(donnees,seri):
     """_summary_ : envoie donnees par port serie, donnees étant une string contenant tout les points/donnée du tracé
 
     Args:
@@ -11,7 +11,7 @@ def envoyer_donnees_serial(donnees, port, vitesse_baud=19200, timeout=1):
         timeout (int, optional): Defaults to 1.
     """
     try:
-        ser = serial.Serial(port, vitesse_baud, timeout=timeout)
+        ser = seri
         print("Port série ouvert :", ser.name)
 
         if type(donnees) == str:

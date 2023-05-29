@@ -12,6 +12,7 @@
                 <form method="post" action="{{ url_for('tasks') }}">
                 <input class="sty_btn" type="submit" value="Stop/Start" name="stop" />
                 <input class="sty_btn" type="submit" value="Capture" name="click"/>
+                <input type="text" id="cmd" value="name" name="cmd" placeholder="Entrez un nom" required>
                 </form>
                 <img src="{{ url_for('video_feed') }}" alt="wow" height="80%">
                 
