@@ -1,0 +1,6 @@
+fonc.c:32:6:Deplacement_Clavier	16	static
+fonc.c:54:6:Deplacement_Distance	440	static
+fonc.c:70:6:Deplacement_Angle	456	static
+fonc.c:88:6:ServoUp	4	static
+fonc.c:93:6:ServoDown	4	static
+fonc.c:99:6:Reception_Deplacement	16	static
