@@ -137,7 +137,7 @@ def deplacement(ser_STM, ser_ordi, lidar, angles, distances):
                 msg = "t" + angles[i]
                 erreur = envoieMsgDessin(msg, ser_STM, ser_ordi)
 
-            elif k == 1: # Recule de la distance entre le centre des roue et le crayon
+            elif k == 1: # Recule de la distance entre le centre des roues et le crayon
                 erreur = envoieMsgDessin(msgrr, ser_STM, ser_ordi)
 
             elif k == 2: # Baisse le crayon
