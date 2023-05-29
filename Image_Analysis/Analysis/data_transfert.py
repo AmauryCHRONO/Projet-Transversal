@@ -67,3 +67,4 @@ def traitement_transfert():
     print(output)
     return output
 
+traitement_transfert()
