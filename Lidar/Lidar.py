@@ -39,11 +39,11 @@ def traitement(tour,move):
         distance = scan[1]
         angle = scan[0]
 
-        if  abs(distance*math.sin(np.deg2rad(angle)))<100:
-            if angle<90 :
+        if (distance*math.sin(np.deg2rad(angle)) <= 200 and angle <= 180) or (distance*math.sin(np.deg2rad(angle)) >= -80 and angle >= 180):
+            if angle<180 :
                 gauche = True
                                 
-            if angle-360>-90:
+            if angle>180:
                 droite = True
 
     if gauche and droite:
@@ -71,15 +71,16 @@ def traitement(tour,move):
 def Envoi_instruction(direction):
     #Fonction qui envoie par liaison série les informations de direction 
     if direction=='z':
-        ser.write(b'z')
+        ser.write(b'z00000')
     if direction=='s':
-        ser.write(b's')
+        ser.write(b's00000')
     if direction=='q':
-        ser.write(b'q')
+        ser.write(b'q00000')
     if direction=='d':
-        ser.write(b'd')
+        ser.write(b'd00000')
     if direction=='f':
-        ser.write(b'f')
+        ser.write(b'f00000')
+
 
 Envoi_instruction("z")
 run()
