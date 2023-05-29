@@ -21,9 +21,12 @@ app.config['SERIAL_STOPBITS']=1
 """
 #ser_ordi = Serial(app)
 
-ser_ordi=serial.Serial('COM4',baudrate=19200)
+#ser_ordi=serial.Serial('COM4',baudrate=19200)
 
-global capture, rec_frame, out, switch,mode
+global capture, rec_frame, out, switch
+global mode
+global name
+mode="dessin"
 global mode_connu
 capture=0
 switch=1
@@ -35,6 +38,85 @@ except OSError as error:
 
 camera = cv2.VideoCapture(0)
 
+#requetes sql
+"""fonction DATABASE """
+con = psycopg2.connect(
+    database="ptc",
+    user="postgres",
+    password="0000"
+)
+
+
+cur = con.cursor()
+
+def ex_com(q):
+    cur.execute(q)
+    con.commit()
+
+
+def upload(info):
+    
+    req ="INSERT INTO image (image_name,image_url) VALUES ('"+str(info[0])+"', '"+ str(info[1]) + "');"
+    ex_com(req)
+    return 
+
+
+def uploadstep(info):
+     
+    req ="INSERT INTO list_of_step (id_image,distance_step,angle_step,index_step,name_step,url_step) VALUES ("+str(info[0])+", "+str(info[1])+", "+str(info[2])+", "+str(info[3])+", 't"+"', '"+str(info[4])+  "');"
+    print(req)
+    ex_com(req)
+    return
+
+
+def getid(info):
+    new="'%"+str(info)+"%'"
+    req ="select i.id_image from image as i where i.image_name LIKE "+new
+    ex_com(req)
+
+    return cur.fetchall()
+
+
+
+
+def requeteALLSTEP(info):
+    new="'%"+str(info)+"%'"
+    req="select i.id_image,s.index_step,i.image_name,s.distance_step,s.angle_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where i.image_name LIKE "+new
+    
+    ex_com(req)
+    return cur.fetchall()
+
+def requeteGenerale():
+    req = "select image_name from image"
+    ex_com(req)
+    return cur.fetchall()
+
+def requete(info):
+    new="'%"+str(info)+"%'"
+    #req=" select i.id_image,i.image_name,s.distance_step,s.angle_step,s.index_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where s.index_step = 1 and i.image_name LIKE" +new
+    req = "select i.image_name,count(s.index_step),sum(s.distance_step) from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where i.image_name LIKE" +new +"group by i.image_name, i.id_image order by i.id_image"
+
+    ex_com(req)
+    return cur.fetchall()
+
+def requeteUrl(info):
+    new="'%"+str(info)+"%'"
+    req = "select image_url from image where image_name LIKE "+new +"order by id_image"
+    ex_com(req)
+    return cur.fetchall()
+
+
+def requeteUrlstep(info):
+    new="'%"+str(info)+"%'"
+    req = "select s.url_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where i.image_name LIKE" +new +"group by s.url_step, s.index_step order by s.index_step;"
+
+    ex_com(req)
+    return cur.fetchall()
+
+
+
+
+"""
 def ecriture(info):
     global ser_ordi
     if not ser_ordi.isOpen():
@@ -94,11 +176,13 @@ def init():
     mode = "dessin"
     envoi(mode)
     mode_connu=True
+"""
 
 
 def gen_frames():  # generate frame by frame from camera
     global out, capture,rec_frame
-    global ser_ordi 
+    global ser_ordi
+    global name
 
     while True:
         success, frame = camera.read() 
@@ -106,11 +190,15 @@ def gen_frames():  # generate frame by frame from camera
             if(capture):
                 capture=0
                 now = datetime.datetime.now()
-                p = os.path.sep.join(['User_Interface/shots', "shot_{}.png".format(str(now).replace(":",''))])
+                
+                p = os.path.sep.join(['User_Interface/static', str(name)+".png"])
                 cv2.imwrite(p, frame)
-                image.anaimage(p)
-                out = df.traitement_transfert()
-                df.envoyer_donnees_serial(out,ser_ordi)
+                upload([name,"/static/"+str(name)+".png"])
+                print(p)
+                image.anaimage(p,name)
+                #out = df.traitement_transfert()
+                #df.envoyer_donnees_serial(out,ser_ordi)
+                name=""
 
             try:
                 ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
@@ -193,11 +281,13 @@ def video_feed():
 def tasks():
     global switch,camera
     global mode
+    global name
     mode_new="dessin"
     if mode_new!=mode:        
-        envoi(mode)
-
+        #envoi(mode)
+        pass
     if request.method == 'POST':
+        name = request.form['cmd']
         if request.form.get('click') == 'Capture':
             global capture
             capture=1
@@ -220,45 +310,7 @@ def tasks():
     return render_template('camera.html')
 
 
-"""fonction DATABASE """
-con = psycopg2.connect(
-    database="ptc",
-    user="postgres",
-    password="0000"
-)
 
-
-cur = con.cursor()
-
-def ex_com(q):
-    cur.execute(q)
-    con.commit()
-
-def requeteALLSTEP(info):
-    new="'%"+str(info)+"%'"
-    req="select i.id_image,s.index_step,i.image_name,s.distance_step,s.angle_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where i.image_name LIKE "+new
-    
-    ex_com(req)
-    return cur.fetchall()
-
-def requeteGenerale():
-    req = "select image_name from image"
-    ex_com(req)
-    return cur.fetchall()
-
-def requete(info):
-    new="'%"+str(info)+"%'"
-    #req=" select i.id_image,i.image_name,s.distance_step,s.angle_step,s.index_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where s.index_step = 1 and i.image_name LIKE" +new
-    req = "select i.image_name,count(s.index_step),sum(s.distance_step) from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where i.image_name LIKE" +new +"group by i.image_name"
-
-    ex_com(req)
-    return cur.fetchall()
-
-def requeteUrl(info):
-    new="'%"+str(info)+"%'"
-    req = "select image_url from image where image_name LIKE "+new
-    ex_com(req)
-    return cur.fetchall()
 
 
 
@@ -267,7 +319,8 @@ def index():
     global mode 
     mode_new="dessin"
     if mode_new!=mode:        
-        envoi(mode)
+        #envoi(mode)
+        pass
 
     if request.method == 'POST':
         if request.form['method'] == 'post1':
@@ -277,7 +330,7 @@ def index():
             print(res)
             
             img = requeteUrl(model)
-            return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden",urlImage = img[0][0])
+            return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden",urlImage = img)
         for i in range(100):
             if request.form['method'] == str(i):
                 name = request.form['name'+str(i)]
@@ -285,12 +338,20 @@ def index():
                 angle = request.form['angle'+str(i)]
                 print(f"Nom: {name} Distance: {distance} Angle: {angle}")
                 print("ok step")
+
+                img = requeteUrl(name)
                 res=requeteALLSTEP(name)
                 length=len(res)
                 print(res)
-                img = requeteUrl(name)
+                img = requeteUrlstep(name)
+                print(img)
+                if img[0][0]==None:
+                    print("ok")
+                    img = requeteUrl(name)*100
+
+                print(img)
                 
-                return render_template("info.html",res=res,length=length, typeSub="hidden",typeName="hidden",typeIndex="text")
+                return render_template("info.html",res=res,length=length, typeSub="hidden",typeName="hidden",typeIndex="text",urlImage = img)
     else:
         return render_template("home.html")
 
@@ -299,7 +360,8 @@ def speechReco():
     global mode
     mode_new="dessin"
     if mode_new!=mode:        
-        envoi(mode)
+        #envoi(mode)
+        pass
 
     if request.method == 'POST':
         resultat = input_listening()
@@ -309,7 +371,7 @@ def speechReco():
             length = len(res)
             img = requeteUrl(resultat)
             print(img[0][0])
-            return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden",urlImage=img[0][0])
+            return render_template("info.html",res=res,length=length,typeSub="submit",typeName="text",typeIndex="hidden",urlImage=img)
         else:
             return render_template("voix.html",message = "Mot non trouvé")
     return render_template("voix.html")
@@ -319,8 +381,8 @@ def manuelle():
     global mode 
     mode_new="telecommande"
     if mode_new!=mode:        
-        envoi(mode)
-
+        #envoi(mode)
+        pass
     if request.method=='POST':
         if request.form['method'] == 'post2':
            
@@ -329,7 +391,6 @@ def manuelle():
     #TODO --> le bordel sur le bouton de voix
     #
     elif request.method=='GET':
-        envoi(mode)
         return render_template("manuelle.html")
     
 @app.route('/light_up', methods=['POST'])
@@ -355,10 +416,9 @@ def control():
 
 if __name__=="__main__":
     
-    init()
+    #init()
         
     app.run(debug=True)
-    print(2)
 
 camera.release()
 cv2.destroyAllWindows()

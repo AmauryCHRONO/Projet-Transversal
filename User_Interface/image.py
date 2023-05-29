@@ -10,19 +10,22 @@ from skimage.measure import find_contours
 from scipy.signal import savgol_filter
 import json
 import shutil
+import app 
 
 
-def anaimage(path):
+def anaimage(path,name=""):
     # Charger l'image
     #image = cv2.imread("Image_Analysis/Analysis/shots/coeur.png")
     #image = cv2.imread("shots/form_random2.png")
     #image = cv2.imread("shots/form_random3.png")
-    #image = cv2.imread("shots/coeur.png")
+    image = cv2.imread("User_Interface/coeur.png")
     #image = cv2.imread("shots/trait.png")
     #image = cv2.imread("shots/trait_doigt.png")
     #image = cv2.imread("shots/griboulli.png")
-    #print(image)
-    image = cv2.imread(path)
+    print(image)
+
+    #image = cv2.imread(path)
+
     plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
     plt.axis('off')
     plt.show()
@@ -337,7 +340,7 @@ def anaimage(path):
 
     # Création du dossier pour stocker les images
     
-    os.makedirs("steps", exist_ok=True)
+    os.makedirs("User_interface/static/steps", exist_ok=True)
     #shutil.rmtree("./steps")
 
     # Création d'une image blanche
@@ -353,7 +356,7 @@ def anaimage(path):
             cv2.line(image, pt1, pt2, (0, 0, 0), 15)
         
         # Enregistrement de l'image dans le dossier "steps"
-        cv2.imwrite(f"steps/step{i}.png", image)
+        cv2.imwrite(f"User_interface/static/steps/"+str(name)+"step"+str(i)+".png", image)
 
     deltas = []
     thetas_abs = []
@@ -398,10 +401,14 @@ def anaimage(path):
 
     # Création de la liste de points
     Points = []
+    id=app.getid(name)[0][0]
+ 
     for i in range(len(thetas_rel)):
         point = {"angle": thetas_rel[i], "distance": delta_arrondi[i]}
         Points.append(point)
-
+        info=[id,delta_arrondi[i],thetas_rel[i],i+1,"/static/steps/"+str(name)+"step"+str(i+1)+".png"]
+        app.uploadstep(info)
+        
     # Création du dictionnaire final
     data = {"points": Points}
 
