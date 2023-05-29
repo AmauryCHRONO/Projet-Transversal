@@ -81,7 +81,7 @@ def getid(info):
 
 def requeteALLSTEP(info):
     new="'%"+str(info)+"%'"
-    req="select i.id_image,s.index_step,i.image_name,s.distance_step,s.angle_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where i.image_name LIKE "+new
+    req="select i.id_image,s.index_step,i.image_name,s.distance_step,s.angle_step,s.name_step from list_of_step as s INNER JOIN image as i on s.id_image = i.id_image where i.image_name LIKE "+new +" order by s.index_step"
     
     ex_com(req)
     return cur.fetchall()

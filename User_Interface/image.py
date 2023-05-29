@@ -10,7 +10,7 @@ from skimage.measure import find_contours
 from scipy.signal import savgol_filter
 import json
 import shutil
-import app 
+import appfonctionelle 
 
 
 def anaimage(path,name=""):
@@ -401,13 +401,13 @@ def anaimage(path,name=""):
 
     # Création de la liste de points
     Points = []
-    id=app.getid(name)[0][0]
+    id=appfonctionelle.getid(name)[0][0]
  
     for i in range(len(thetas_rel)):
         point = {"angle": thetas_rel[i], "distance": delta_arrondi[i]}
         Points.append(point)
         info=[id,delta_arrondi[i],thetas_rel[i],i+1,"/static/steps/"+str(name)+"step"+str(i+1)+".png"]
-        app.uploadstep(info)
+        appfonctionelle.uploadstep(info)
         
     # Création du dictionnaire final
     data = {"points": Points}
