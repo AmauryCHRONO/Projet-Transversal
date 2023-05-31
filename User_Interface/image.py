@@ -22,10 +22,10 @@ def anaimage(path,name=""):
     #image = cv2.imread("shots/trait.png")
     #image = cv2.imread("shots/trait_doigt.png")
     #image = cv2.imread("shots/griboulli.png")
-    print(image)
+    
 
     #image = cv2.imread(path)
-
+    print(image)
     plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
     plt.axis('off')
     plt.show()
@@ -169,7 +169,7 @@ def anaimage(path,name=""):
     plt.show()
 
     # Binariser l'image
-    _, thresh = cv2.threshold(warped, 163, 255, cv2.THRESH_BINARY)
+    _, thresh = cv2.threshold(warped, 173, 255, cv2.THRESH_BINARY)
 
     plt.imshow(thresh,'gray')
     plt.axis('off')

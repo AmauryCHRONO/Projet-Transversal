@@ -26,10 +26,28 @@ app.config['SERIAL_STOPBITS']=1
 global capture, rec_frame, out, switch
 global mode
 global name
-mode="dessin"
+
+
 global mode_connu
 capture=0
 switch=1
+def whatmod():
+    global mode
+    fichier = open('User_Interface\mod.txt', 'r')
+    mode = fichier.read()
+    fichier.close()
+    print(mode)
+    return mode
+
+def changemod(info):
+    global mode
+    fichier = open('User_Interface\mod.txt', 'w')
+    fichier.write(info)
+    fichier.close()
+    print(mode)
+    whatmod()
+    return mode
+
 
 try:
     os.mkdir('User_Interface\shots')
@@ -75,6 +93,9 @@ def getid(info):
     ex_com(req)
 
     return cur.fetchall()
+
+
+
 
 def requeteALLSTEP(info):
     new="'%"+str(info)+"%'"
@@ -126,39 +147,17 @@ def ecriture(info):
     
     
     pass
-
-def envoi(info):
-    global mode_connu
+"""
+def changementmode(info):
+    
     global mode
-    global ser_ordi
-    if not ser_ordi.isOpen():
-        ser_ordi.open()
-
-    if mode_connu:
-        ecriture("stop<")
-        info="pasok"
-        
-        while info!="OK<":
-            text=mode+"<"
-            ecriture(text)
-            
-            info=str(ser_ordi.read_until(b"<"))
-            info=info[2:-1]
-            print("Mode recu")
-            print(info)
-    else:
-        info="pasok"
-        
-        while info!="OK<":
-            text=mode+"<"
-            ecriture(text)
-            info=str(ser_ordi.read_until(b"<"))
-            info=info[2:-1]
-            print("Mode recu")
-            print(info)
+    
+    df.envoyer_donnees_serial("stop<")
+    text=info+"<"
+    df.envoyer_donnees_serial(text)
 
     return 0
-
+"""
 def init():
     global mode_connu
     global mode
@@ -193,8 +192,8 @@ def gen_frames():  # generate frame by frame from camera
                 upload([name,"/static/"+str(name)+".png"])
                 print(p)
                 image.anaimage(p,name)
-                #out = df.traitement_transfert()
-                #df.envoyer_donnees_serial(out,ser_ordi)
+                out = df.traitement_transfert()
+                df.envoyer_donnees_serial(out)
                 name=""
 
             try:
@@ -225,6 +224,44 @@ def input_listening():
         result = "Error"
     return result
 
+def input_listening2():
+    try:
+        # Creation queue
+        result_queue = Queue()
+        # Démarrage thread
+        t = Thread(target=lambda q: q.put(listen_timeout2()), args=(result_queue,))
+        t.start()
+
+        # Fin du thread
+        t.join()
+        # Recup resultat de listen_timeout
+        result = result_queue.get()
+    except:
+        result = "Error"
+    return result
+
+def listen_timeout2():
+    r = sr.Recognizer()
+    mic = sr.Microphone()
+
+    with mic as source:
+
+        print("calibration du microphone")
+        r.adjust_for_ambient_noise(source)
+        print("ECOUTE (Francais)")
+
+        audio = r.listen(source, phrase_time_limit=3)
+        try:
+            instruction = (testfr2(r, audio))
+            print(instruction)
+            return instruction
+        except sr.UnknownValueError:
+            print("Impossible de comprendre la parole.")
+        except sr.RequestError as e:
+            print("Erreur de service de reconnaissance vocale : {}".format(e))
+    return "Error"
+
+
 def listen_timeout():
     r = sr.Recognizer()
     mic = sr.Microphone()
@@ -245,6 +282,23 @@ def listen_timeout():
         except sr.RequestError as e:
             print("Erreur de service de reconnaissance vocale : {}".format(e))
     return "Error"
+
+def testfr2(r, audio):
+    text = r.recognize_google(audio, language='fr-FR')
+    print("Vous avez dit : {}".format(text))
+    
+
+    listeMot = ["Avance","avance","recule","Recule","droite","Droite","Gauche","gauche","Stop","stop"]
+
+    textMots = text.split()  # chercher mot exact
+
+    for mot in textMots:
+        for i in listeMot:
+            if i[0] == mot:
+                return mot
+            
+    return text
+
 
 def testfr(r, audio):
     text = r.recognize_google(audio, language='fr-FR')
@@ -280,8 +334,9 @@ def tasks():
     global mode
     global name
     mode_new="dessin"
-    if mode_new!=mode:        
-        #envoi(mode)
+    if mode_new!=whatmod(): 
+        changemod(mode_new)      
+        changementmode(mode_new)
         pass
     if request.method == 'POST':
         name = request.form['cmd']
@@ -315,8 +370,9 @@ def tasks():
 def index():
     global mode 
     mode_new="dessin"
-    if mode_new!=mode:        
-        #envoi(mode)
+    if mode_new!=whatmod(): 
+        changemod(mode_new)      
+        changementmode(mode_new)
         pass
 
     if request.method == 'POST':
@@ -356,8 +412,9 @@ def index():
 def speechReco(): 
     global mode
     mode_new="dessin"
-    if mode_new!=mode:        
-        #envoi(mode)
+    if mode_new!=whatmod(): 
+        changemod(mode_new)      
+        changementmode(mode_new)
         pass
 
     if request.method == 'POST':
@@ -373,12 +430,54 @@ def speechReco():
             return render_template("voix.html",message = "Mot non trouvé")
     return render_template("voix.html")
 
+@app.route("/commandevoix", methods=['GET','POST'])
+def speechReco2(): 
+    global mode
+    mode_new="telecomande"
+    if mode_new!=whatmod(): 
+        changemod(mode_new)      
+        changementmode(mode_new)
+        pass
+    print("2")
+    if request.method == 'POST':
+        resultat = input_listening2()
+        print("3")
+        if resultat!=[]:
+            if resultat == "avance":
+                df.envoyer_donnees_serial("z")
+                print("4")
+            elif resultat == "recule":
+                df.envoyer_donnees_serial("z")
+                print("4")
+                pass
+            elif resultat == "droite":
+                df.envoyer_donnees_serial("d")
+                print("4")
+                pass
+            elif resultat == "gauche":
+                df.envoyer_donnees_serial("q")
+                print("4")
+                pass
+            elif resultat == "stop":
+                df.envoyer_donnees_serial("f")
+                print("4")
+                pass
+            return render_template("voix2.html",message = str(resultat))
+        else:
+            return render_template("voix2.html",message = "Mot non trouvé")
+        
+    return render_template("voix2.html")
+
+
+
+
 @app.route("/manuelle", methods=['GET','POST'])
 def manuelle():
     global mode 
     mode_new="telecommande"
-    if mode_new!=mode:        
-        #envoi(mode)
+    if mode_new!=whatmod(): 
+        changemod(mode_new)      
+        changementmode(mode_new)
         pass
     if request.method=='POST':
         if request.form['method'] == 'post2':
@@ -394,14 +493,25 @@ def manuelle():
 def light_up():
     key_pressed = request.form.get('key')
     if key_pressed == 'Z' or key_pressed == 'z':
+        df.envoyer_donnees_serial("z")
         return 'success'  # You can return any response you want here
     if key_pressed == 'Q' or key_pressed == 'q':
+        df.envoyer_donnees_serial("q")
         return 'success'  # You can return any response you want here
     if key_pressed == 'S' or key_pressed == 's':
+        df.envoyer_donnees_serial("s")
         return 'success'  # You can return any response you want here
     if key_pressed == 'D' or key_pressed == 'd':
+        df.envoyer_donnees_serial("d")
+        return 'success'  # You can return any response you want here
+    if key_pressed == 'E' or key_pressed == 'e':
+        df.envoyer_donnees_serial("e")
+        return 'success'  # You can return any response you want here
+    if key_pressed == 'A' or key_pressed == 'a':
+        df.envoyer_donnees_serial("a")
         return 'success'  # You can return any response you want here
     if key_pressed == ' ':
+        df.envoyer_donnees_serial("fx")
         return 'success'  # You can return any response you want here
     return 'failure'  #Sinon on renvoie failure
 

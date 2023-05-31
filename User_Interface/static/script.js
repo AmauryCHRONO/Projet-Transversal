@@ -60,6 +60,21 @@ $(document).ready(function() {
         }
       });
     }
+    else if (event.key === "a" || event.key === "A") {
+      $.ajax({
+        url: '/light_up',
+        type: 'POST',
+        data: { key: event.key }
+      
+      });
+    }
+    else if (event.key === "e" || event.key === "E") {
+      $.ajax({
+        url: '/light_up',
+        type: 'POST',
+        data: { key: event.key }
+      });
+    }
   });
 
   $(document).keyup(function(event) {
